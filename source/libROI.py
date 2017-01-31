@@ -1,3 +1,6 @@
+# Capturing image ROI with Python and OpenCV
+# 31/01/2017 - Marcelo Cabral 
+
 import cv2
 import os
 import sys
