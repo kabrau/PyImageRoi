@@ -8,21 +8,32 @@ import os
 import numpy as np
 from libROI import imageRegionOfInterest
 
-def run(path):
+def run(path, isFirstEmpty = False):
 
     valid_images = [".jpg",".gif",".png",".tga"]
 
     fileNames = []
+    firstEmpty = -1 
+    qtd = 0 
     for filename in os.listdir(path):
         ext = os.path.splitext(filename)[1]
         if ext.lower() not in valid_images:
             continue
         fileNames.append(filename)
+        if (firstEmpty==-1 and not os.path.exists(os.path.join(path,filename+".txt"))):
+            firstEmpty = qtd
+        qtd += 1
 
-    index = 0
     obj = imageRegionOfInterest(path)
     obj.isSavePoints = True
     obj.pathToSave = path
+
+    print "Total", qtd
+    print "Marked", firstEmpty
+
+    index = 0
+    if (isFirstEmpty and firstEmpty!=-1):
+        index = firstEmpty
 
     while index < len(fileNames):
 
@@ -71,4 +82,4 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="Path to the images")
 args = vars(ap.parse_args())
 
-run(args["path"])
+run(args["path"], True)
