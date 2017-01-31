@@ -3,4 +3,4 @@ Capturing image ROI with Python and OpenCV
 
 Example:
 
-"python" TestLib.py -p ../image/
+"python" LoadImages.py -p ../image/
