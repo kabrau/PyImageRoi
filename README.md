@@ -5,8 +5,8 @@ Example:
 
 "python" LoadImages.py -p ../image/
 
-**Right Click** mouse to start marking an area<br/>
-**Left Click** mouse to remove last area<br/>
+**Left Click** mouse to start marking an area<br/>
+**Right Click** mouse to remove last area<br/>
 **'N'** to next image<br/>
 **'P'** to previus image<br/>
 
