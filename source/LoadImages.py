@@ -77,7 +77,6 @@ def run(path, isFirstEmpty = False):
         
 #=============================================================================
 # construct the argument parser and parse the arguments
-
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="Path to the images")
 args = vars(ap.parse_args())
