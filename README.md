@@ -6,6 +6,11 @@ Folder ./version_01
 
 You can capture multiple regions per image.<br>
 The regions are saved in a text file with same name of  image file.<br>
+
+Example: <br>
+cat.jpg
+cat.jpg.txt
+
 Each line of text file is a one region.<br>
 The region is X_start, Y_start, X_end, Y_end.<br>
 
@@ -13,7 +18,7 @@ Example:<br>
    342,   136,  1433,   781
    
 Command:<br>
-cd ./version_01
+cd ./version_01<br>
 ./python LoadImages.py -p ../image/
 
 **Left Click** mouse to start marking an area<br/>
