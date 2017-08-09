@@ -14,7 +14,15 @@ phpiqa6ae.752.502.s.jpg
 phpiqa6ae.752.502.s.txt
 ```
 
-## usage
+** Important: ** Do not put two pictures with the same name and different extensions in the same folder.
+
+Each line of text file is a one region
+>class_number x1 y1 width height
+
+Example:
+>0 342 136 100 200
+
+## RUN
 LoadImages.py [-h] -p PATH [-f]
 ```
 optional arguments:<br>
@@ -24,17 +32,13 @@ optional arguments:<br>
                         image without label)<br>
 ```
 
-Each line of text file is a one region
->class_number x1 y1 width height
-
-Example:
->0 342 136 100 200
-   
+## USAGE   
 
 **Left Click** mouse to start marking an area<br/>
 **Right Click** mouse to remove last area<br/>
 **'N'** to next image<br/>
 **'P'** to previus image<br/>
+**'Q'** Exit<br/>
 
 ![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/MyCatResult.jpg)
 

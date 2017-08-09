@@ -23,6 +23,8 @@ class imageRegionOfInterest:
         self.pathToSave = _path
         self.fileNameTxt = ""
 
+        self.classNumber = ""
+
         #to MouseSelect
         self.ptInitial = None
         self.ptFinal = None
@@ -50,15 +52,15 @@ class imageRegionOfInterest:
 
         if (os.path.isfile(self.fileNameTxt)):
             try:
-                l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=',')
+                l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
                 if len(l.shape)==1:
-                    self.setInicialPoint(l[0],l[1])
-                    self.setFinalPoint(l[2],l[3])
+                    self.setInicialPoint(l[1],l[2])
+                    self.setFinalPoint(l[3],l[4],str(l[0]))
                 else:
                     for row in l:
-                        if len(row)==4:
-                            self.setInicialPoint(row[0],row[1])
-                            self.setFinalPoint(row[2],row[3])
+                        if len(row)==5:
+                            self.setInicialPoint(row[1],row[2])
+                            self.setFinalPoint(row[3],row[4],str(row[0]))
             except:
                 print ("Unexpected error:", sys.exc_info()[0])
             
@@ -70,19 +72,22 @@ class imageRegionOfInterest:
         cv2.moveWindow(self.windowName, 1, 1)
         self.refresh()
 
+    def textPoint(self, pt1):
+        return (pt1[0], pt1[1]-4)
+
+
     def refresh(self):
         self.image = self.originalImage.copy()
         cor = 0
         for pt in self.points:
+            cv2.putText(self.image,'C'+pt[2],self.textPoint(pt[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
             cv2.rectangle(self.image, pt[0], pt[1], self.colorList[cor], 2)
             cor += 1
             if (cor==len(self.colorList)):
                 cor = 0
 
         cv2.imshow(self.windowName, self.image)
-             
-
-
+            
     def setInicialPoint(self, x, y):
         self.ptInitial = (x, y)
         self.startedSelectArea = True
@@ -90,14 +95,17 @@ class imageRegionOfInterest:
     def showTemporarySelectArea(self, x, y):
         if (self.startedSelectArea):
             img = self.originalImage.copy()
+            cv2.putText(img,'C'+self.classNumber,self.textPoint(self.ptInitial), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0),2)
             cv2.rectangle(img, self.ptInitial, (x, y), (0, 255, 0), 2)
             cv2.imshow(self.windowName, img)
 
-    def setFinalPoint(self, x, y):
+    def setFinalPoint(self, x, y, classNumber):
         if (self.startedSelectArea):
+            if (classNumber==""):
+                classNumber=self.classNumber
             self.ptFinal = (x, y)
             self.startedSelectArea = False
-            self.points.append( [self.ptInitial, self.ptFinal] )
+            self.points.append( [self.ptInitial, self.ptFinal, classNumber] )
             self.refresh()
 
     def cancelLastPoint(self):
@@ -108,8 +116,9 @@ class imageRegionOfInterest:
     def savePoints(self):
         l = []
         for pt in self.points:
-            l.append([pt[0][0], pt[0][1], pt[1][0], pt[1][1] ])
-        np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =',',newline='\n')  
+            l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0], pt[1][1] ])
+        #np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =' ',newline='\n')  
+        np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
 
 def mouse_select_area(event, x, y, flags, param):
@@ -123,7 +132,7 @@ def mouse_select_area(event, x, y, flags, param):
 
     #acept select area
     elif event == cv2.EVENT_LBUTTONUP:
-        imageRegionOfInterest.Instance.setFinalPoint(x,y)
+        imageRegionOfInterest.Instance.setFinalPoint(x,y,"")
 
     #cancel select area
     elif event == cv2.EVENT_RBUTTONDOWN:

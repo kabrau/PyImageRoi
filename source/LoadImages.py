@@ -8,7 +8,7 @@ import os
 import numpy as np
 from libROI import imageRegionOfInterest
 
-def run(path, isFirstEmpty = False):
+def run(path, isFirstEmpty = False, classNumber = "0"):
 
     valid_images = [".jpg",".gif",".png",".tga"]
 
@@ -27,9 +27,10 @@ def run(path, isFirstEmpty = False):
     obj = imageRegionOfInterest(path)
     obj.isSavePoints = True
     obj.pathToSave = path
+    obj.classNumber = classNumber
 
-    print ("Total", qtd)
-    print ("Marked", firstEmpty)
+    print("Total", qtd)
+    print("Labeled", firstEmpty)
 
     index = 0
     if (isFirstEmpty and firstEmpty!=-1):
@@ -59,6 +60,10 @@ def run(path, isFirstEmpty = False):
             elif key == ord("s"):
                 obj.savePoints()
 
+            # change Class Number
+            elif key >= ord("0") and key <= ord("9"):
+                obj.classNumber = chr(key)
+
             # next image
             elif key == ord("n"):
                 obj.savePoints()
@@ -79,10 +84,10 @@ def run(path, isFirstEmpty = False):
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="images path")
-ap.add_argument("-v", "--version", required=False, help="label version", choices=["YOLO", "SIMPLE"], default="YOLO")
+ap.add_argument("-c", "--class", required=False, help="class number", default="0")
 ap.add_argument("-f", "--first", required=False, dest='firstEmpty', action='store_const', const=False, default=True,
                       help='starts on the first image (default: Jump to first image without label)')
 
 args = vars(ap.parse_args())
 
-run(args["path"], args["firstEmpty"])
+run(args["path"], args["firstEmpty"], args["class"])
