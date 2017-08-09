@@ -15,7 +15,7 @@ phpiqa6ae.752.502.s.txt
 ```
 
 ## usage
-LoadImages.py [-h] -p PATH [-v {YOLO,SIMPLE}] [-f]
+LoadImages.py [-h] -p PATH [-f]
 ```
 optional arguments:<br>
   -h, --help            show this help message and exit<br>
@@ -25,7 +25,8 @@ optional arguments:<br>
 ```
 
 Each line of text file is a one region
->class_number x1 y1 width height<br><br>
+>class_number x1 y1 width height
+
 Example:
 >0 342 136 100 200
    
