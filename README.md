@@ -1,36 +1,33 @@
 # PyImageRoi
-A simple tool for
-- Labeling object bounding boxes in images.
-- Capture image ROI (Region of interest).
+A simple tool to Labeling object bounding boxes or ROI (Region of interest) in images
 
-Implemented with Python 3.5. and OpenCV
+- multiple boxes per image
+- multiple classes per image
 
-- You can capture multiple regions per image.<br>
-- The regions are saved in a text file with same name of image file.<br>
-Example: <br>
-cat.jpg  <= image <br>
-cat.txt  <= label <br>
+The regions are saved in a text file with same name of image file, e.g.
+```
+IMG-20170807-WA0001.jpg
+IMG-20170807-WA0001.txt
+locaisvstdss.jpg
+locaisvstdss.txt
+phpiqa6ae.752.502.s.jpg
+phpiqa6ae.752.502.s.txt
+```
 
-**usage:** LoadImages.py [-h] -p PATH [-v {YOLO,SIMPLE}] [-f]<br>
-
+## usage
+LoadImages.py [-h] -p PATH [-v {YOLO,SIMPLE}] [-f]
+```
 optional arguments:<br>
   -h, --help            show this help message and exit<br>
   -p PATH, --path PATH  images path<br>
-  -v {YOLO,SIMPLE}, --version {YOLO,SIMPLE}<br> 
-                        label version<br>
   -f, --first           starts on the first image (default: Jump to first<br>
                         image without label)<br>
+```
 
-Each line of text file is a one region.<br>
-Version **YOLO**<br>
-The region is class_number x1 y1 width height<br><br>
-Example:<br>
-0 342 136 100 200
-
-Version **SIMPLE**<br>
-The region is X_start, Y_start, X_end, Y_end.<br><br>
-Example:<br>
-   342,   136,  1433,   781
+Each line of text file is a one region
+>class_number x1 y1 width height<br><br>
+Example:
+>0 342 136 100 200
    
 
 **Left Click** mouse to start marking an area<br/>
