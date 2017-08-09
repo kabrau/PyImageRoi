@@ -45,7 +45,8 @@ class imageRegionOfInterest:
         self.originalImage = self.image.copy()
         self.points = []
 
-        self.fileNameTxt = os.path.join( self.pathToSave, self.fileName+".txt") 
+        base_file, ext = os.path.splitext(self.fileName)
+        self.fileNameTxt = os.path.join( self.pathToSave, base_file+".txt") 
 
         if (os.path.isfile(self.fileNameTxt)):
             try:
@@ -59,7 +60,7 @@ class imageRegionOfInterest:
                             self.setInicialPoint(row[0],row[1])
                             self.setFinalPoint(row[2],row[3])
             except:
-                print "Unexpected error:", sys.exc_info()[0]
+                print ("Unexpected error:", sys.exc_info()[0])
             
         self.showImage()
 

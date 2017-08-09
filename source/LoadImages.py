@@ -28,8 +28,8 @@ def run(path, isFirstEmpty = False):
     obj.isSavePoints = True
     obj.pathToSave = path
 
-    print "Total", qtd
-    print "Marked", firstEmpty
+    print ("Total", qtd)
+    print ("Marked", firstEmpty)
 
     index = 0
     if (isFirstEmpty and firstEmpty!=-1):
@@ -78,7 +78,11 @@ def run(path, isFirstEmpty = False):
 #=============================================================================
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--path", required=True, help="Path to the images")
+ap.add_argument("-p", "--path", required=True, help="images path")
+ap.add_argument("-v", "--version", required=False, help="label version", choices=["YOLO", "SIMPLE"], default="YOLO")
+ap.add_argument("-f", "--first", required=False, dest='firstEmpty', action='store_const', const=False, default=True,
+                      help='starts on the first image (default: Jump to first image without label)')
+
 args = vars(ap.parse_args())
 
-run(args["path"], True)
+run(args["path"], args["firstEmpty"])

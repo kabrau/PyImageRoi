@@ -1,15 +1,15 @@
 # PyImageRoi
-Capturing image ROI (Region of interest) with Python and OpenCV<br>
+A simple tool for
+- Labeling object bounding boxes in images.
+- Capture image ROI (Region of interest).
 
-## Version 01
-Folder ./version_01
-
+Implemented with Python 3.5. and OpenCV
 You can capture multiple regions per image.<br>
-The regions are saved in a text file with same name of  image file.<br>
+The regions are saved in a text file with same name of image file.<br>
 
 Example: <br>
-cat.jpg
-cat.jpg.txt
+cat.jpg  <= image <br>
+cat.txt  <= label <br>
 
 Each line of text file is a one region.<br>
 The region is X_start, Y_start, X_end, Y_end.<br>
