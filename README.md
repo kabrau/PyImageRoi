@@ -69,5 +69,10 @@ optional arguments:<br>
 
 ![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/MyCatResult.jpg)
 
-![Text File](https://github.com/kabrau/PyImageRoi/blob/master/image/MyCat.txt)
+```text
+0 210 85 901 490
+1 632 263 760 423
+1 762 259 878 419
+1 3 193 186 486
+```
 
