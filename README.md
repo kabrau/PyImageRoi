@@ -39,13 +39,19 @@ Example:
 >0 342 136 100 200
 
 ### RUN
-CreateBoundingBoxes.py [-h] -p PATH [-f]
+usage: CreateBoundingBoxes.py [-h] -p PATH [-f] [-c CLASS]<br>
+                              [-className [CLASSNAME [CLASSNAME ...]]]
 ```
 optional arguments:<br>
   -h, --help            show this help message and exit<br>
   -p PATH, --path PATH  images path<br>
   -f, --first           starts on the first image (default: Jump to first<br>
                         image without label)<br>
+  -c CLASS, --class CLASS<br>
+                        class number started (default = 0)<br>
+  -className [CLASSNAME [CLASSNAME ...]]<br>
+                        class name list (0..9 positions, max 10), e.g.<br>
+                        -classes dog cat<br>
 ```
 
 ### USAGE   

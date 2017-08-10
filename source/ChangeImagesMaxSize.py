@@ -30,7 +30,7 @@ path = args["path"]
 maxSize = args["maxSize"]
 
 #--- RUN ----
-valid_images = [".jpg",".gif",".png",".tga"]
+valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
 
 for filename in os.listdir(path):
     ext = os.path.splitext(filename)[1]

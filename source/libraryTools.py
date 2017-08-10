@@ -24,13 +24,24 @@ class imageRegionOfInterest:
         self.fileNameTxt = ""
 
         self.classNumber = ""
+        self.classNameList = None
 
         #to MouseSelect
         self.ptInitial = None
         self.ptFinal = None
         self.startedSelectArea = False
 
-        self.colorList = [(25,25,112),(	102,205,170), (255,255,0), (153,50,204), (100,149,237), (0,255,255), (184,134,11)]
+        self.colorList = [(0,255,0),
+                          (0,0,255),
+                          (255,0,0),
+                          (25,25,112),
+                          (112,0,25),
+                          (102,205,170), 
+                          (255,255,0), 
+                          (153,50,204), 
+                          (100,149,237), 
+                          (0,255,255), 
+                          (184,134,11)]
         
 
         imageRegionOfInterest.Instance = self         
@@ -76,15 +87,22 @@ class imageRegionOfInterest:
         return (pt1[0], pt1[1]-4)
 
 
+    def loadClassName(self,classNumber):
+        className = 'C'+classNumber
+        if self.classNameList is not None:
+            i = int(classNumber)
+            if len(self.classNameList)>i:
+               className = self.classNameList[i]
+
+        return className
+
+
     def refresh(self):
         self.image = self.originalImage.copy()
-        cor = 0
         for pt in self.points:
-            cv2.putText(self.image,'C'+pt[2],self.textPoint(pt[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
+            cor = int(pt[2])
+            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(pt[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
             cv2.rectangle(self.image, pt[0], pt[1], self.colorList[cor], 2)
-            cor += 1
-            if (cor==len(self.colorList)):
-                cor = 0
 
         cv2.imshow(self.windowName, self.image)
             
@@ -95,8 +113,9 @@ class imageRegionOfInterest:
     def showTemporarySelectArea(self, x, y):
         if (self.startedSelectArea):
             img = self.originalImage.copy()
-            cv2.putText(img,'C'+self.classNumber,self.textPoint(self.ptInitial), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0),2)
-            cv2.rectangle(img, self.ptInitial, (x, y), (0, 255, 0), 2)
+            cor = int(self.classNumber)
+            cv2.putText(img,self.loadClassName(self.classNumber),self.textPoint(self.ptInitial), cv2.FONT_HERSHEY_SIMPLEX, 0.8, cor,2)
+            cv2.rectangle(img, self.ptInitial, (x, y), cor, 2)
             cv2.imshow(self.windowName, img)
 
     def setFinalPoint(self, x, y, classNumber):

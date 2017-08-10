@@ -1,0 +1,3 @@
+python ChangeImagesMaxSize.py -p E:\Datasets\pedestrian_signal\images -s 1024
+
+python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\images -className go stop

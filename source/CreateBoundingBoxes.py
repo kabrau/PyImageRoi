@@ -6,11 +6,11 @@ import argparse
 import cv2
 import os
 import numpy as np
-from libROI import imageRegionOfInterest
+from libraryTools import imageRegionOfInterest
 
-def run(path, isFirstEmpty = False, classNumber = "0"):
+def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
 
-    valid_images = [".jpg",".gif",".png",".tga"]
+    valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
 
     fileNames = []
     firstEmpty = -1 
@@ -28,6 +28,7 @@ def run(path, isFirstEmpty = False, classNumber = "0"):
     obj.isSavePoints = True
     obj.pathToSave = path
     obj.classNumber = classNumber
+    obj.classNameList = classNameList
 
     print("Total", qtd)
     print("Labeled", firstEmpty)
@@ -84,10 +85,13 @@ def run(path, isFirstEmpty = False, classNumber = "0"):
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="images path")
-ap.add_argument("-c", "--class", required=False, help="class number", default="0")
 ap.add_argument("-f", "--first", required=False, dest='firstEmpty', action='store_const', const=False, default=True,
                       help='starts on the first image (default: Jump to first image without label)')
 
+ap.add_argument("-c", "--class", required=False, help="class number started (default = 0)", default="0")
+
+ap.add_argument('-className', nargs='*', help='class name list (0..9 positions, max 10), e.g. -classes dog cat')
+
 args = vars(ap.parse_args())
 
-run(args["path"], args["firstEmpty"], args["class"])
+run(args["path"], args["firstEmpty"], args["class"], args["className"])
