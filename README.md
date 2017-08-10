@@ -1,5 +1,17 @@
-# PyImageRoi
-A simple tool to Labeling object bounding boxes or ROI (Region of interest) in images
+# ChangeImagesMaxSize
+A tool to change images max size into folder
+
+## RUN
+ChangeImagesMaxSize.py [-h] -p PATH -s SIZE
+```
+optional arguments: <br>
+  -h, --help            show this help message and exit <br>
+  -p PATH, --path PATH  images path <br>
+  -s SIZE, --size SIZE  resize image (width ou height) to max SIZE <br>
+```
+
+# CreateBoundingBoxes
+A tool to Labeling object bounding boxes or ROI (Region of interest) in images
 
 - multiple boxes per image
 - multiple classes per image
@@ -23,7 +35,7 @@ Example:
 >0 342 136 100 200
 
 ## RUN
-LoadImages.py [-h] -p PATH [-f]
+CreateBoundingBoxes.py [-h] -p PATH [-f]
 ```
 optional arguments:<br>
   -h, --help            show this help message and exit<br>
