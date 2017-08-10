@@ -63,5 +63,11 @@ optional arguments:<br>
 **'P'** to previus image<br/>
 **'Q'** Exit<br/>
 
+
+### Example
+> python CreateBoundingBoxes.py -p ..\.\image -className cat plant <br>
+
 ![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/MyCatResult.jpg)
+
+![Text File](https://github.com/kabrau/PyImageRoi/blob/master/image/MyCat.txt)
 
