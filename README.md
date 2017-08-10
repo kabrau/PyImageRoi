@@ -58,7 +58,7 @@ optional arguments:<br>
 
 **Left Click** mouse to start marking an area<br/>
 **Right Click** mouse to remove last area<br/>
-**'0..9'** change class to new boxe
+**'0..9'** change class to new boxe<br/>
 **'N'** to next image<br/>
 **'P'** to previus image<br/>
 **'Q'** Exit<br/>
