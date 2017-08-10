@@ -1,7 +1,11 @@
-# ChangeImagesMaxSize
+# Tools to annotate images
+* ChangeImagesMaxSize
+* CreateBoundingBoxes
+
+## ChangeImagesMaxSize
 A tool to change images max size into folder
 
-## RUN
+### RUN
 ChangeImagesMaxSize.py [-h] -p PATH -s SIZE
 ```
 optional arguments: <br>
@@ -10,7 +14,7 @@ optional arguments: <br>
   -s MAXSIZE, --maxSize MAXSIZE resize image (width ou height) to MAX SIZE <br>
 ```
 
-# CreateBoundingBoxes
+## CreateBoundingBoxes
 A tool to Labeling object bounding boxes or ROI (Region of interest) in images
 
 - multiple boxes per image
@@ -34,7 +38,7 @@ Each line of text file is a one region
 Example:
 >0 342 136 100 200
 
-## RUN
+### RUN
 CreateBoundingBoxes.py [-h] -p PATH [-f]
 ```
 optional arguments:<br>
@@ -44,7 +48,7 @@ optional arguments:<br>
                         image without label)<br>
 ```
 
-## USAGE   
+### USAGE   
 
 **Left Click** mouse to start marking an area<br/>
 **Right Click** mouse to remove last area<br/>
