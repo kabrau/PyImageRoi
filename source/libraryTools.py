@@ -66,12 +66,12 @@ class imageRegionOfInterest:
                 l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
                 if len(l.shape)==1:
                     self.setInicialPoint(l[1],l[2])
-                    self.setFinalPoint(l[3],l[4],str(l[0]))
+                    self.setFinalPoint(l[1]+l[3],l[2]+l[4],str(l[0]))
                 else:
                     for row in l:
                         if len(row)==5:
                             self.setInicialPoint(row[1],row[2])
-                            self.setFinalPoint(row[3],row[4],str(row[0]))
+                            self.setFinalPoint(row[1]+row[3],row[2]+row[4],str(row[0]))
             except:
                 print ("Unexpected error:", sys.exc_info()[0])
             
@@ -124,7 +124,22 @@ class imageRegionOfInterest:
                 classNumber=self.classNumber
             self.ptFinal = (x, y)
             self.startedSelectArea = False
-            self.points.append( [self.ptInitial, self.ptFinal, classNumber] )
+
+            if (self.ptInitial[0]<self.ptFinal[0]):
+                x1 = self.ptInitial[0]
+                x2 = self.ptFinal[0]
+            else:
+                x2 = self.ptInitial[0]
+                x1 = self.ptFinal[0]
+
+            if (self.ptInitial[1]<self.ptFinal[1]):
+                y1 = self.ptInitial[1]
+                y2 = self.ptFinal[1]
+            else:
+                y2 = self.ptInitial[1]
+                y1 = self.ptFinal[1]
+
+            self.points.append( [(x1,y1), (x2,y2), classNumber] )
             self.refresh()
 
     def cancelLastPoint(self):
@@ -135,7 +150,7 @@ class imageRegionOfInterest:
     def savePoints(self):
         l = []
         for pt in self.points:
-            l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0], pt[1][1] ])
+            l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1] ])
         #np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =' ',newline='\n')  
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
