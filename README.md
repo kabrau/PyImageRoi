@@ -5,9 +5,9 @@ A tool to change images max size into folder
 ChangeImagesMaxSize.py [-h] -p PATH -s SIZE
 ```
 optional arguments: <br>
-  -h, --help            show this help message and exit <br>
-  -p PATH, --path PATH  images path <br>
-  -s SIZE, --size SIZE  resize image (width ou height) to max SIZE <br>
+  -h, --help                    show this help message and exit <br>
+  -p PATH, --path PATH          images path <br>
+  -s MAXSIZE, --maxSize MAXSIZE resize image (width ou height) to MAX SIZE <br>
 ```
 
 # CreateBoundingBoxes

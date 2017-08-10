@@ -22,12 +22,12 @@ def need_Rotate(img):
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="images path")
-ap.add_argument("-s", "--size", required=True, type=int, help='resize image (width ou height) to max SIZE')
+ap.add_argument("-s", "--maxSize", required=True, type=int, help='resize image (width ou height) to MAX SIZE')
 
 args = vars(ap.parse_args())
 
 path = args["path"]
-maxSize = args["size"]
+maxSize = args["maxSize"]
 
 #--- RUN ----
 valid_images = [".jpg",".gif",".png",".tga"]
