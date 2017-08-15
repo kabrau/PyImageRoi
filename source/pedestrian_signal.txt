@@ -1,3 +1,9 @@
 python ChangeImagesMaxSize.py -p E:\Datasets\pedestrian_signal\images -s 1024
 
 python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\images -className go stop
+
+
+python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\videos_portrait -o E:\Datasets\pedestrian_signal\images_from_videos -f 3 portrait
+python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\videos_landscape -o E:\Datasets\pedestrian_signal\images_from_videos -f 3 landscape
+
+python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\images_from_videos -className go stop
