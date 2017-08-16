@@ -63,15 +63,16 @@ class imageRegionOfInterest:
 
         if (os.path.isfile(self.fileNameTxt)):
             try:
-                l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
-                if len(l.shape)==1:
-                    self.setInicialPoint(l[1],l[2])
-                    self.setFinalPoint(l[1]+l[3],l[2]+l[4],str(l[0]))
-                else:
-                    for row in l:
-                        if len(row)==5:
-                            self.setInicialPoint(row[1],row[2])
-                            self.setFinalPoint(row[1]+row[3],row[2]+row[4],str(row[0]))
+                if (os.stat(self.fileNameTxt).st_size>0):
+                    l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
+                    if len(l.shape)==1:
+                        self.setInicialPoint(l[1],l[2])
+                        self.setFinalPoint(l[1]+l[3],l[2]+l[4],str(l[0]))
+                    else:
+                        for row in l:
+                            if len(row)==5:
+                                self.setInicialPoint(row[1],row[2])
+                                self.setFinalPoint(row[1]+row[3],row[2]+row[4],str(row[0]))
             except:
                 print ("Unexpected error:", sys.exc_info()[0])
             

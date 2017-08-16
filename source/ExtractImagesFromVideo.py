@@ -4,6 +4,9 @@ import argparse
 import numpy as np
 #print(cv2.__version__)
 
+def outputFileName(filename, pathOut, frame = 0):
+    name, ext = os.path.splitext(filename)
+    return os.path.join(pathOut,name+("-(F%05d)"%frame)+".jpeg").replace("\\","/")
 
 #=============================================================================
 # construct the argument parser and parse the arguments
@@ -13,12 +16,16 @@ ap.add_argument("-o","--outputPath", required=True, help="images output path")
 ap.add_argument("-f", "--fps", required=False, default=3, type=int, help='extract frames por seconds')
 ap.add_argument("orientation", choices=['portrait','landscape'], help='portrait (default) or landscape')
 
+ap.add_argument("-n", "--new", required=False, dest='justNew', action='store_const', const=True, default=False,
+                      help='Extracts only from videos without extraction (new video)')
+
 args = vars(ap.parse_args())
 
 pathIn = args["videosPath"]
 pathOut = args["outputPath"]
 fpsOut = args["fps"]
 orientation = args["orientation"]
+justNew = args["justNew"]
 
 #--- RUN ----
 valid_images = [".mp4"]
@@ -28,8 +35,13 @@ for filename in os.listdir(pathIn):
     if ext.lower() not in valid_images:
         continue
 
+    print("Video: ",filename)
+    if justNew:
+        if (os.path.isfile(outputFileName(filename, pathOut))):
+            print("Images already extracted")
+            continue
+
     try:
-        print("Video: ",filename)
         vidcap = cv2.VideoCapture( os.path.join(pathIn,filename) )
 
         video_width = vidcap.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -42,17 +54,15 @@ for filename in os.listdir(pathIn):
             step = int(video_fps/fpsOut)
 
         success = True
-        count = 0
+        count = step
         frame = 0
         salved = 0
         while success:
             success,image = vidcap.read()
-            count = count + 1
             if (count==step):
                 count = 0 
                 if (success):
-                    name, ext = os.path.splitext(filename)
-                    fileNameOut = os.path.join(pathOut,name+("-(F%05d)"%frame)+".jpeg").replace("\\","/")
+                    fileNameOut = outputFileName(filename, pathOut, frame) 
 
                     if (orientation=="portrait"):
                         if (image.shape[0]<image.shape[1]):
@@ -65,6 +75,7 @@ for filename in os.listdir(pathIn):
                     cv2.imwrite(fileNameOut, image)     # save frame as JPEG file
                     salved = salved +1
             frame = frame + 1
+            count = count + 1
 
         print("Total frames",video_frameCount," / Extracted",salved)
 

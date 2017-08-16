@@ -16,11 +16,11 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
     firstEmpty = -1 
     qtd = 0 
     for filename in os.listdir(path):
-        ext = os.path.splitext(filename)[1]
+        name, ext = os.path.splitext(filename)
         if ext.lower() not in valid_images:
             continue
         fileNames.append(filename)
-        if (firstEmpty==-1 and not os.path.exists(os.path.join(path,filename+".txt"))):
+        if (firstEmpty==-1 and not os.path.exists(os.path.join(path,name+".txt"))):
             firstEmpty = qtd
         qtd += 1
 
