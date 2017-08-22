@@ -1,5 +1,6 @@
 # Tools to annotate images
 * ChangeImagesMaxSize
+* ExtractImagesFromVideo
 * CreateBoundingBoxes
 
 ## ChangeImagesMaxSize
@@ -12,6 +13,27 @@ optional arguments: <br>
   -h, --help                    show this help message and exit <br>
   -p PATH, --path PATH          images path <br>
   -s MAXSIZE, --maxSize MAXSIZE resize image (width ou height) to MAX SIZE <br>
+```
+
+## ExtractImagesFromVideo
+A tool to extract images from videos
+
+The images name is same video name with a sequential number, e.g.:
+- video: VID-20170817-WA0003.mp4
+- images: VID-20170817-WA0003-(F00001).txt, VID-20170817-WA0003-(F00002).txt, VID-20170817-WA0003-(F00003).txt
+
+### RUN
+ExtractImagesFromVideo.py [-h] -p VIDEOSPATH -o OUTPUTPATH [-f FPS] [-n] {portrait,landscape}
+```
+positional arguments:<br>
+  {portrait,landscape}  portrait (default) or landscape <br><br>
+
+optional arguments: <br>
+  -h, --help                show this help message and exit <br>
+  -p VIDEOSPATH, --videos   Path VIDEOSPATH videos input path <br>
+  -o OUTPUTPATH, --output   Path OUTPUTPATH images output path <br>
+  -f FPS, --fps FPS         extract frames por seconds <br>
+  -n, --new                 Extracts only from videos without extraction (new videos) <br>
 ```
 
 ## CreateBoundingBoxes

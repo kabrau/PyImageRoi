@@ -1,3 +1,12 @@
+Download Tools: https://github.com/kabrau/PyImageRoi
+
+Environment:
+    python 3.5 or 3.6 # I suggest install with anaconda
+    Libs:
+        opencv, cv2  # pip install opencv
+        numpy        # pip install numpy
+        argparse     # pip install argparse
+        PIL          # pip install Pillow
 
 
 
