@@ -7,12 +7,14 @@
 A tool to change images max size into folder
 
 ### RUN
-ChangeImagesMaxSize.py [-h] -p PATH -s SIZE
 ```
-optional arguments: <br>
-  -h, --help                    show this help message and exit <br>
-  -p PATH, --path PATH          images path <br>
-  -s MAXSIZE, --maxSize MAXSIZE resize image (width ou height) to MAX SIZE <br>
+usage: ChangeImagesMaxSize.py [-h] -p PATH -s MAXSIZE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  images path
+  -s MAXSIZE, --maxSize MAXSIZE
+                        resize image (width ou height) to MAX SIZE
 ```
 
 ## ExtractImagesFromVideo
@@ -23,17 +25,23 @@ The images name is same video name with a sequential number, e.g.:
 - images: VID-20170817-WA0003-(F00001).txt, VID-20170817-WA0003-(F00002).txt, VID-20170817-WA0003-(F00003).txt
 
 ### RUN
-ExtractImagesFromVideo.py [-h] -p VIDEOSPATH -o OUTPUTPATH [-f FPS] [-n] {portrait,landscape}
 ```
-positional arguments:<br>
-  {portrait,landscape}  portrait (default) or landscape <br><br>
+usage: ExtractImagesFromVideo.py [-h] -p VIDEOSPATH -o OUTPUTPATH [-f FPS]
+                                 [-n]
+                                 {portrait,landscape}
 
-optional arguments: <br>
-  -h, --help                show this help message and exit <br>
-  -p VIDEOSPATH, --videos   Path VIDEOSPATH videos input path <br>
-  -o OUTPUTPATH, --output   Path OUTPUTPATH images output path <br>
-  -f FPS, --fps FPS         extract frames por seconds <br>
-  -n, --new                 Extracts only from videos without extraction (new videos) <br>
+positional arguments:
+  {portrait,landscape}  portrait (default) or landscape
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p VIDEOSPATH, --videosPath VIDEOSPATH
+                        videos input path
+  -o OUTPUTPATH, --outputPath OUTPUTPATH
+                        images output path
+  -f FPS, --fps FPS     extract frames por seconds
+  -n, --new             Extracts only from videos without extraction (new
+                        video)              Extracts only from videos without extraction (new videos) <br>
 ```
 
 ## CreateBoundingBoxes
@@ -61,19 +69,20 @@ Example:
 >0 342 136 100 200
 
 ### RUN
-usage: CreateBoundingBoxes.py [-h] -p PATH [-f] [-c CLASS]<br>
-                              [-className [CLASSNAME [CLASSNAME ...]]]
 ```
-optional arguments:<br>
-  -h, --help            show this help message and exit<br>
-  -p PATH, --path PATH  images path<br>
-  -f, --first           starts on the first image (default: Jump to first<br>
-                        image without label)<br>
-  -c CLASS, --class CLASS<br>
-                        class number started (default = 0)<br>
-  -className [CLASSNAME [CLASSNAME ...]]<br>
-                        class name list (0..9 positions, max 10), e.g.<br>
-                        -classes dog cat<br>
+usage: CreateBoundingBoxes.py [-h] -p PATH [-f] [-c CLASS]
+                              [-className [CLASSNAME [CLASSNAME ...]]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  images path
+  -f, --first           starts on the first image (default: Jump to first
+                        image without label)
+  -c CLASS, --class CLASS
+                        class number started (default = 0)
+  -className [CLASSNAME [CLASSNAME ...]]
+                        class name list (0..9 positions, max 10), e.g.
+                        -classes dog cat
 ```
 
 ### USAGE   
