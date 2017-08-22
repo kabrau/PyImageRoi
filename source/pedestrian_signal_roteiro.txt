@@ -1,0 +1,60 @@
+
+
+
+Directories images
+
+Folder 
+|
+|--- original # Original/ copy of images and videos
+|
+|--- videos_landscape/ # Put the landscape videos here
+|
+|--- videos_portrait/ # Put the portrait videos here
+|
+|--- tmp_images/ # Put the new images here to annotation, after copy to images
+|
+|--- images/ # final dataset
+|
+
+1. Extract images from videos
+
+1.1. if you have landscape videos:
+        python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\videos_landscape -o E:\Datasets\pedestrian_signal\tmp_images -f 2 landscape --new
+
+1.2 if you have portrait videos:
+        python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\videos_portrait -o E:\Datasets\pedestrian_signal\tmp_images -f 2 portrait --new
+
+
+2. Resize images to 1024 pixels max
+    python ChangeImagesMaxSize.py -p E:\Datasets\pedestrian_signal\tmp_images -s 1024
+
+2. Create Annotation
+    python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\tmp_images -className go stop off
+
+- Annotation criteria
+
+Colocar um retangulo sobre a sinaleira, não precisa ser perfeito, não precisa ser super ajustado.
+
+Marcar GO (0) para sinal verde 
+Marcar STOP (1) para sinal vermelho
+Marcar OFF (2) para desligado
+
+Se tiver duas ou mais sinaleiras, marca todas separadamente
+
+Se tiver apenas verde fraquinho, marca como GO
+Se tiver verde e vermelho, marca GO
+Se não tiver nada verde, mas apenas um vermelho fraquinho, marca como STOP
+Se tiver desligada, sem nenhuma cor, marcar como OFF
+
+Se tiver apenas uma parte da sinaleira, mas dá para entender como sinaleira, marcar.
+
+Se for noite ou escuro, mesmo com superexposição de luz, marcar.
+
+==================================================================
+- Enviar para o Marcelo as pastas:
+|--- original/
+|--- images/
+
+
+
+
