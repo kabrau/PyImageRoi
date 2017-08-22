@@ -5,7 +5,7 @@ Directories images
 
 Folder 
 |
-|--- original # Original/ copy of images and videos
+|--- original/ # copy of original images and original videos
 |
 |--- videos_landscape/ # Put the landscape videos here
 |
