@@ -130,8 +130,8 @@ optional arguments:
 ..\.\tmp\1 MyCat-3.jpg [4, 180, 168, 496, '1'] (316, 164, 3)
 ```
 
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/0/MyCat-0.JPG "my cat")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-1.JPG "plant 1")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-2.JPG "plant 2")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-3.JPG "plant 3")
+![my cat](https://github.com/kabrau/PyImageRoi/blob/master/tmp/0/MyCat-0.jpg)
+![plant 1](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-1.jpg)
+![plant 2](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-2.jpg)
+![plant 3](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-3.jpg)
 
