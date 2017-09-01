@@ -123,8 +123,8 @@ optional arguments:
 
 ### Result
 
-![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant1.jpg)
-![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/cat.jpg)
-![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant2.jpg)
-![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant3.jpg)
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant1.JPG "plant 1")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/cat.JPG "my cat")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant2.JPG "plant 2")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant3.JPG "plant 3")
 
