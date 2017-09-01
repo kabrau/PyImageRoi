@@ -29,10 +29,6 @@ def run(path, destPath):
                 boxNumber += 1
         
         qtd += 1
-        #if (qtd>20):
-            #break
-
-    
 
 #=============================================================================
 # construct the argument parser and parse the arguments
