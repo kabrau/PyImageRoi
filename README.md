@@ -109,7 +109,8 @@ optional arguments:
 ```
 
 ## ExportToClassification
-A tool to extract box from images and save imagebox to classification
+A tool to extract box from images and save imagebox to classification.
+Save the separated images by classes, each class in a subfolder.
 
 ### RUN
 ```
