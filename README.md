@@ -121,10 +121,17 @@ optional arguments:
   -d DEST, --dest DEST  destination images path
 ```
 
-### Result
+### Example
+> python ExportToClassification.py -p ..\.\image -f ..\.\image <br>
+```
+..\.\tmp\0 MyCat-0.jpg [227, 111, 889, 470, '0'] (359, 662, 3)
+..\.\tmp\1 MyCat-1.jpg [647, 255, 761, 428, '1'] (173, 114, 3)
+..\.\tmp\1 MyCat-2.jpg [756, 257, 871, 429, '1'] (172, 115, 3)
+..\.\tmp\1 MyCat-3.jpg [4, 180, 168, 496, '1'] (316, 164, 3)
+```
 
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant1.JPG "plant 1")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/cat.JPG "my cat")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant2.JPG "plant 2")
-![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant3.JPG "plant 3")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/0/MyCat-0.JPG "my cat")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-1.JPG "plant 1")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-2.JPG "plant 2")
+![alt text](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-3.JPG "plant 3")
 
