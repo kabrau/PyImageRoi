@@ -28,7 +28,7 @@ orientation = args["orientation"]
 justNew = args["justNew"]
 
 #--- RUN ----
-valid_images = [".mp4"]
+valid_images = [".mp4", ".avi"]
 
 for filename in os.listdir(pathIn):
     ext = os.path.splitext(filename)[1]

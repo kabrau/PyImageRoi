@@ -2,6 +2,7 @@
 * ChangeImagesMaxSize
 * ExtractImagesFromVideo
 * CreateBoundingBoxes
+* ExportToClassification
 
 ## ChangeImagesMaxSize
 A tool to change images max size into folder
@@ -106,4 +107,24 @@ optional arguments:
 1 756 257 115 172
 1 4 180 164 316
 ```
+
+## ExportToClassification
+A tool to extract box from images and save imagebox to classification
+
+### RUN
+```
+usage: ExportToClassification.py [-h] -p PATH -d DEST
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  images path
+  -d DEST, --dest DEST  destination images path
+```
+
+### Result
+
+![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant1.jpg)
+![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/cat.jpg)
+![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant2.jpg)
+![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/plant3.jpg)
 

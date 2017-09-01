@@ -65,5 +65,8 @@ Se for noite ou escuro, mesmo com superexposição de luz, marcar.
 |--- images/
 
 
+==================================================================
+Exportar apenas os boxes das sinaleiras para classificação
 
+python ExportToClassification.py -p E:\Datasets\pedestrian_signal\images -d E:\Datasets\pedestrian_signal\classification
 

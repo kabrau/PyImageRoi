@@ -46,35 +46,76 @@ class imageRegionOfInterest:
 
         imageRegionOfInterest.Instance = self         
 
-
-    def loadImage(self, _filename):
-
-        if (self.windowName != ""):
-            cv2.destroyWindow(self.windowName)
-
-        self.fileName = _filename
-        self.windowName = self.fileName
-        self.image = cv2.imread(os.path.join(self.path,self.fileName))    
-        self.originalImage = self.image.copy()
-        self.points = []
-
+    def setTxtFileName(self):
         base_file, ext = os.path.splitext(self.fileName)
-        self.fileNameTxt = os.path.join( self.pathToSave, base_file+".txt") 
+        self.fileNameTxt = os.path.join( self.pathToSave, base_file+".txt")
 
+    def loadBoxFromTxt(self):
+        self.setTxtFileName()
+        points = []
         if (os.path.isfile(self.fileNameTxt)):
             try:
                 if (os.stat(self.fileNameTxt).st_size>0):
                     l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
                     if len(l.shape)==1:
-                        self.setInicialPoint(l[1],l[2])
-                        self.setFinalPoint(l[1]+l[3],l[2]+l[4],str(l[0]))
+                        points.append([l[1],l[2],l[1]+l[3],l[2]+l[4],str(l[0])])
                     else:
                         for row in l:
                             if len(row)==5:
-                                self.setInicialPoint(row[1],row[2])
-                                self.setFinalPoint(row[1]+row[3],row[2]+row[4],str(row[0]))
+                                points.append([row[1],row[2],row[1]+row[3],row[2]+row[4],str(row[0])])
             except:
-                print ("Unexpected error:", sys.exc_info()[0])
+                print ("Unexpected error:", sys.exc_info()[0])       
+        return points
+
+    def setFileImage(self, _filename):
+        self.fileName = _filename
+
+    def loadFromFile(self):
+        self.image = cv2.imread(os.path.join(self.path,self.fileName))    
+        self.originalImage = self.image.copy()
+
+    def extractBox(self, pathName, fileName, point):
+        image = self.image[point[1]:point[3],point[0]:point[2]]
+        print(pathName,fileName, point, image.shape)
+        if not os.path.exists(pathName):
+            os.makedirs(pathName)
+        cv2.imwrite(os.path.join(pathName,fileName), image)
+
+    def loadImage(self, _filename):
+
+        self.setFileImage(_filename)
+        self.loadFromFile()
+
+        if (self.windowName != ""):
+            cv2.destroyWindow(self.windowName)
+        self.windowName = self.fileName
+
+
+       
+        #base_file, ext = os.path.splitext(self.fileName)
+        #self.fileNameTxt = os.path.join( self.pathToSave, base_file+".txt") 
+
+        self.points = []
+        points = self.loadBoxFromTxt()        
+        for point in points:
+            #print(point[0],point[1],point[2],point[3],point[4])
+            self.setInicialPoint(point[0],point[1])
+            self.setFinalPoint(point[2],point[3],point[4])
+
+        #if (os.path.isfile(self.fileNameTxt)):
+        #    try:
+        #        if (os.stat(self.fileNameTxt).st_size>0):
+        #            l = np.loadtxt(self.fileNameTxt,dtype=int, delimiter=' ')
+        #            if len(l.shape)==1:
+        #                self.setInicialPoint(l[1],l[2])
+        #                self.setFinalPoint(l[1]+l[3],l[2]+l[4],str(l[0]))
+        #            else:
+        #                for row in l:
+        #                    if len(row)==5:
+        #                        self.setInicialPoint(row[1],row[2])
+        #                        self.setFinalPoint(row[1]+row[3],row[2]+row[4],str(row[0]))
+        #    except:
+        #        print ("Unexpected error:", sys.exc_info()[0])
             
         self.showImage()
 
