@@ -156,7 +156,7 @@ optional arguments:
 ```
 
 ### Example
-> python ExportToCSV.py -p E:\Datasets\pedestrian_signal\images\test -c E:\Datasets\pedestrian_signal\images\test.cvs <br>
+> python ExportToCSV.py -p E:\Datasets\pedestrian_signal\images\test -c E:\Datasets\pedestrian_signal\images\test.csv <br>
 ```
 filename,width,height,class,xmin,ymin,xmax,ymax
 16431531.jpg,640,426,sinaleira,317,92,345,140
