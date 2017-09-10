@@ -141,6 +141,9 @@ optional arguments:
 ## ExportToCSV
 A tool to create a cvs file with de bounding boxes
 
+note: Use 1 classname only 
+
+
 ### RUN
 ```
 usage: ExportToCSV.py [-h] -p PATH -c CVS_FILE
