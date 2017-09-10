@@ -3,6 +3,7 @@
 * ExtractImagesFromVideo
 * CreateBoundingBoxes
 * ExportToClassification
+* ExportToCSV
 
 ## ChangeImagesMaxSize
 A tool to change images max size into folder
@@ -135,4 +136,35 @@ optional arguments:
 ![plant 1](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-1.jpg)
 ![plant 2](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-2.jpg)
 ![plant 3](https://github.com/kabrau/PyImageRoi/blob/master/tmp/1/MyCat-3.jpg)
+
+
+## ExportToCSV
+A tool to create a cvs file with de bounding boxes
+
+### RUN
+```
+usage: ExportToCSV.py [-h] -p PATH -c CVS_FILE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  images path
+  -c CVS_FILE, --cvs_file CVS_FILE
+                        cvs file
+```
+
+### Example
+> python ExportToCSV.py -p E:\Datasets\pedestrian_signal\images\test -c E:\Datasets\pedestrian_signal\images\test.cvs <br>
+```
+filename,width,height,class,xmin,ymin,xmax,ymax
+16431531.jpg,640,426,sinaleira,317,92,345,140
+16431540.jpg,640,426,sinaleira,449,106,475,148
+17074299.jpg,620,412,sinaleira,566,199,586,228
+19156210.jpg,620,412,sinaleira,181,112,206,161
+20170701_105311.jpg,768,1024,sinaleira,323,424,352,471
+20170701_105442.jpg,768,1024,sinaleira,311,412,346,463
+```
+
+
+
+
 
