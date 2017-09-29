@@ -64,9 +64,13 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
             # change Class Number
             elif key >= ord("0") and key <= ord("9"):
                 obj.classNumber = chr(key)
+            
+            # change Class 0  (' key is left side 1 key)
+            elif key == ord("'"):
+                obj.classNumber = "0"
 
-            # next image
-            elif key == ord("n"):
+            # next image or spacebar
+            elif key == ord("n") or key==32:
                 obj.savePoints()
                 index += 1
                 break
@@ -79,6 +83,8 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
 
             # quit
             elif key == ord("q"):
+                if len(obj.points)>0:
+                    obj.savePoints()
                 return
         
 #=============================================================================

@@ -33,12 +33,18 @@ Folder
 1.2 if you have portrait videos:
         python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\videos_portrait -o E:\Datasets\pedestrian_signal\tmp_images -f 2 portrait --new
 
+python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\tmp_videos -o E:\Datasets\pedestrian_signal\tmp_images -f 1 portrait --new
+
 
 2. Resize images to 1024 pixels max
     python ChangeImagesMaxSize.py -p E:\Datasets\pedestrian_signal\tmp_images -s 1024
 
 2. Create Annotation
     python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\tmp_images -className go stop off
+
+python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\images -className go stop off
+
+
 
 - Annotation criteria
 

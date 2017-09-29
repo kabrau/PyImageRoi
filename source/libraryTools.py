@@ -5,6 +5,7 @@ import cv2
 import os
 import sys
 import numpy as np
+from win32api import GetSystemMetrics
 
 class imageRegionOfInterest:
 
@@ -18,6 +19,10 @@ class imageRegionOfInterest:
         self.originalImage = None
         self.windowName = ""
         self.fileName = ""
+
+        self.scale = 1.0
+        self.noScale = False 
+        #self.noScale = True
 
         self.isSavePoints = False
         self.pathToSave = _path
@@ -61,10 +66,12 @@ class imageRegionOfInterest:
                         points.append([l[1],l[2],l[1]+l[3],l[2]+l[4],str(l[0])])
                     else:
                         for row in l:
-                            if len(row)==5:
+                            if len(row)>=5:
                                 points.append([row[1],row[2],row[1]+row[3],row[2]+row[4],str(row[0])])
             except:
                 print ("Unexpected error:", sys.exc_info()[0])       
+
+            #print("Inicio",points)
         return points
 
     def setFileImage(self, _filename):
@@ -76,7 +83,7 @@ class imageRegionOfInterest:
 
     def extractBox(self, pathName, fileName, point):
         image = self.image[point[1]:point[3],point[0]:point[2]]
-        print(pathName,fileName, point, image.shape)
+        #print(pathName,fileName, point, image.shape)
         if not os.path.exists(pathName):
             os.makedirs(pathName)
         cv2.imwrite(os.path.join(pathName,fileName), image)
@@ -99,8 +106,9 @@ class imageRegionOfInterest:
         points = self.loadBoxFromTxt()        
         for point in points:
             #print(point[0],point[1],point[2],point[3],point[4])
-            self.setInicialPoint(point[0],point[1])
-            self.setFinalPoint(point[2],point[3],point[4])
+            #self.setInicialPoint(point[0],point[1])
+            #self.setFinalPoint(point[2],point[3],point[4])
+            self.points.append( [(point[0],point[1]), (point[2],point[3]), point[4]] )
 
         #if (os.path.isfile(self.fileNameTxt)):
         #    try:
@@ -141,30 +149,61 @@ class imageRegionOfInterest:
 
     def refresh(self):
         self.image = self.originalImage.copy()
+        height, width = self.image.shape[:2]
+
+        if self.noScale:
+            final_height = height
+            final_width = width 
+        
+        else:
+            screen_width = GetSystemMetrics(0)
+            screen_height = GetSystemMetrics(1)
+            final_height = int(screen_height * 0.9)
+            self.scale = final_height/height
+            final_width = int(width * self.scale)
+            self.image = cv2.resize(self.image,(final_width, final_height), interpolation = cv2.INTER_CUBIC)
+
+        #print("points: ",self.points)
         for pt in self.points:
             cor = int(pt[2])
-            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(pt[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
-            cv2.rectangle(self.image, pt[0], pt[1], self.colorList[cor], 2)
+
+            pt0 = list(pt[0])
+            pt0[0] = int(pt[0][0] * self.scale)
+            pt0[1] = int(pt[0][1] * self.scale)
+            pt1 = list(pt[1])
+            pt1[0] = int(pt[1][0] * self.scale)
+            pt1[1] = int(pt[1][1] * self.scale)
+            
+            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(tuple(pt0)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
+            #print(pt, tuple(pt0), tuple(pt1))
+            cv2.rectangle(self.image, tuple(pt0), tuple(pt1), self.colorList[cor], 2)
 
         cv2.imshow(self.windowName, self.image)
             
     def setInicialPoint(self, x, y):
-        self.ptInitial = (x, y)
+        self.ptInitial = (int(x/self.scale),int(y/self.scale))
         self.startedSelectArea = True
 
     def showTemporarySelectArea(self, x, y):
         if (self.startedSelectArea):
             img = self.originalImage.copy()
+
+            height, width = img.shape[:2]
+            final_width = int(width * self.scale)
+            final_height = int(height * self.scale)
+            img = cv2.resize(self.image,(final_width, final_height), interpolation = cv2.INTER_CUBIC)
+
             cor = int(self.classNumber)
-            cv2.putText(img,self.loadClassName(self.classNumber),self.textPoint(self.ptInitial), cv2.FONT_HERSHEY_SIMPLEX, 0.8, cor,2)
-            cv2.rectangle(img, self.ptInitial, (x, y), cor, 2)
+            cv2.putText(img,self.loadClassName(self.classNumber),self.textPoint((int(self.ptInitial[0]*self.scale),int(self.ptInitial[1]*self.scale))), cv2.FONT_HERSHEY_SIMPLEX, 0.8, cor,2)
+            cv2.rectangle(img, (int(self.ptInitial[0]*self.scale),int(self.ptInitial[1]*self.scale)), (int(x),int(y)), cor, 2)
+
             cv2.imshow(self.windowName, img)
 
     def setFinalPoint(self, x, y, classNumber):
         if (self.startedSelectArea):
             if (classNumber==""):
                 classNumber=self.classNumber
-            self.ptFinal = (x, y)
+            self.ptFinal = (int(x/self.scale),int(y/self.scale))
             self.startedSelectArea = False
 
             if (self.ptInitial[0]<self.ptFinal[0]):
@@ -181,10 +220,12 @@ class imageRegionOfInterest:
                 y2 = self.ptInitial[1]
                 y1 = self.ptFinal[1]
 
+            #print("append ",(x1,y1), (x2,y2))
             self.points.append( [(x1,y1), (x2,y2), classNumber] )
             self.refresh()
 
     def cancelLastPoint(self):
+        #print(self.points)
         if len(self.points) > 0:
             del self.points[-1]
             self.refresh()
@@ -192,7 +233,7 @@ class imageRegionOfInterest:
     def savePoints(self):
         l = []
         for pt in self.points:
-            l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1] ])
+            l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1], self.originalImage.shape[1], self.originalImage.shape[0] ])
         #np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =' ',newline='\n')  
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
