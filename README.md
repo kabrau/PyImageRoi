@@ -47,7 +47,7 @@ optional arguments:
 ```
 
 ## CreateBoundingBoxes
-A tool to Labeling object bounding boxes or ROI (Region of interest) in images
+A tool to Labeling object bounding boxes or ROI (Region of interest) in images  
 (adjusts the displayed image size to the screen size)
 
 - multiple boxes per image
@@ -69,7 +69,7 @@ Each line of text file is a one region
 >class_number x1 y1 width height image_width image_height
 
 Example:
->1 426 679 55 99 1080 1920
+>1 426 679 55 99 1080 1920  
 >1 440 839 30 59 1080 1920
 
 
