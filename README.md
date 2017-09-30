@@ -107,10 +107,10 @@ optional arguments:
 ![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/MyCatResult.jpg)
 
 ```text
-0 227 111 662 359
-1 647 255 114 173
-1 756 257 115 172
-1 4 180 164 316
+0 227 111 662 359 1024 576 
+1 647 255 114 173 1024 576 
+1 756 257 115 172 1024 576 
+1 4 180 164 316 1024 576 
 ```
 
 ## ExportToClassification
