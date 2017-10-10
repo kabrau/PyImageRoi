@@ -47,7 +47,8 @@ optional arguments:
 ```
 
 ## CreateBoundingBoxes
-A tool to Labeling object bounding boxes or ROI (Region of interest) in images
+A tool to Labeling object bounding boxes or ROI (Region of interest) in images  
+(adjusts the displayed image size to the screen size)
 
 - multiple boxes per image
 - multiple classes per image
@@ -65,10 +66,13 @@ phpiqa6ae.752.502.s.txt
 ** Important: ** Do not put two pictures with the same name and different extensions in the same folder.
 
 Each line of text file is a one region
->class_number x1 y1 width height
+>class_number x1 y1 width height image_width image_height
 
 Example:
->0 342 136 100 200
+>1 426 679 55 99 1080 1920  
+>1 440 839 30 59 1080 1920
+
+
 
 ### RUN
 ```
@@ -91,8 +95,8 @@ optional arguments:
 
 **Left Click** mouse to start marking an area<br/>
 **Right Click** mouse to remove last area<br/>
-**'0..9'** change class to new boxe<br/>
-**'N'** to next image<br/>
+**'0..9'** change class to new boxe (aaccent key = 0, too)<br/>
+**'N'** or **'space-bar'** to next image<br/>
 **'P'** to previus image<br/>
 **'Q'** Exit<br/>
 
@@ -103,10 +107,10 @@ optional arguments:
 ![Screen Shot](https://github.com/kabrau/PyImageRoi/blob/master/tmp/MyCatResult.jpg)
 
 ```text
-0 227 111 662 359
-1 647 255 114 173
-1 756 257 115 172
-1 4 180 164 316
+0 227 111 662 359 1024 576 
+1 647 255 114 173 1024 576 
+1 756 257 115 172 1024 576 
+1 4 180 164 316 1024 576 
 ```
 
 ## ExportToClassification
