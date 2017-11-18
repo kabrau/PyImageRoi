@@ -4,6 +4,7 @@
 * CreateBoundingBoxes
 * ExportToClassification
 * ExportToCSV
+* ExportToPascal
 
 ## ChangeImagesMaxSize
 A tool to change images max size into folder
@@ -170,6 +171,31 @@ filename,width,height,class,xmin,ymin,xmax,ymax
 20170701_105311.jpg,768,1024,sinaleira,323,424,352,471
 20170701_105442.jpg,768,1024,sinaleira,311,412,346,463
 ```
+
+## ExportToPascal
+A tool to create a xml files (pascal) to each image
+
+note: Use 1 classname only, I will change
+
+
+### RUN
+```
+usage: ExportToPascal.py [-h] -p PATH -a ANNPATH  
+
+optional arguments:  
+  -h, --help            show this help message and exit  
+  -p PATH, --path PATH  images path  
+  -a ANNPATH, --annpath ANNPATH  
+                        annotation path  
+```
+
+### Example
+> python ExportToCSV.py -pE:\Datasets\pedestrian_signal\images -a E:\Datasets\pedestrian_signal\images.ann <br>
+
+
+
+
+
 
 
 
