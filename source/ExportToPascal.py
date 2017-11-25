@@ -25,10 +25,15 @@ def root(folder, filename, width, height):
                 ),
             )
 
-def instance_to_xml(point):
+def instance_to_xml(point, classNameList):
     E = objectify.ElementMaker(annotate=False)
+
+    className = classNameList[0]
+    if (int(point[4])<=len(classNameList[0])):
+        className = classNameList[int(point[4])]
+
     return E.object(
-            E.name('sinaleira'),
+            E.name(className),
             E.bndbox(
                 E.xmin(point[0]),
                 E.ymin(point[1]),
@@ -37,7 +42,7 @@ def instance_to_xml(point):
                 ),
             )
 
-def run(image_path, ann_path):
+def run(image_path, ann_path, classNameList = ["someclass"]):
 
     obj = imageRegionOfInterest(image_path)
     valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
@@ -62,7 +67,7 @@ def run(image_path, ann_path):
 
         if len(points)>0:
             for point in points:
-                annotation.append(instance_to_xml(point))
+                annotation.append(instance_to_xml(point, classNameList))
 
 
         #print(etree.tostring(annotation, pretty_print=True))
@@ -78,7 +83,8 @@ def run(image_path, ann_path):
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="images path")
 ap.add_argument("-a", "--annpath", required=True, help="annotation path")
+ap.add_argument('-className', nargs='*', help='class name list (0..9 positions, max 10), e.g. -classes dog cat')
 
 args = vars(ap.parse_args())
 
-run(args["path"], args["annpath"])
+run(args["path"], args["annpath"], args["className"])

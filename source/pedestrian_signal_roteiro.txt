@@ -76,3 +76,7 @@ Exportar apenas os boxes das sinaleiras para classificação
 
 python ExportToClassification.py -p E:\Datasets\pedestrian_signal\images -d E:\Datasets\pedestrian_signal\classification
 
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\images" -a "E:\Datasets\pedestrian_signal\images.ann_gostop" -className go stop stop
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\testImages" -a "E:\Datasets\pedestrian_signal\testImages.ann_gostop" -className go stop stop

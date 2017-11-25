@@ -89,7 +89,7 @@ optional arguments:
                         class number started (default = 0)
   -className [CLASSNAME [CLASSNAME ...]]
                         class name list (0..9 positions, max 10), e.g.
-                        -classes dog cat
+                        -className dog cat
 ```
 
 ### USAGE   
@@ -180,18 +180,21 @@ note: Use 1 classname only, I will change
 
 ### RUN
 ```
-usage: ExportToPascal.py [-h] -p PATH -a ANNPATH  
+usage: ExportToPascal.py [-h] -p PATH -a ANNPATH 
+                              [-className [CLASSNAME [CLASSNAME ...]]]
 
 optional arguments:  
   -h, --help            show this help message and exit  
   -p PATH, --path PATH  images path  
   -a ANNPATH, --annpath ANNPATH  
                         annotation path  
+  -className [CLASSNAME [CLASSNAME ...]]
+                        class name list (0..9 positions, max 10), e.g.
+                        -className dog cat
 ```
 
 ### Example
-> python ExportToCSV.py -pE:\Datasets\pedestrian_signal\images -a E:\Datasets\pedestrian_signal\images.ann <br>
-
+> python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\images" -a "E:\Datasets\pedestrian_signal\images.ann_gostop" -className go stop stop <br>
 
 
 
