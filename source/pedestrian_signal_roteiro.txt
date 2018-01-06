@@ -80,3 +80,25 @@ python ExportToClassification.py -p E:\Datasets\pedestrian_signal\images -d E:\D
 python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\images" -a "E:\Datasets\pedestrian_signal\images.ann_gostop" -className go stop stop
 
 python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\testImages" -a "E:\Datasets\pedestrian_signal\testImages.ann_gostop" -className go stop stop
+
+
+
+
+
+python ExtractImagesFromVideo.py -p E:\Datasets\pedestrian_signal\NOVOS -o E:\Datasets\pedestrian_signal\tmp_images -f 3 portrait --new
+python CreateBoundingBoxes.py -p E:\Datasets\pedestrian_signal\tmp_images -className go stop off
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\test" -a "E:\Datasets\pedestrian_signal\test.ann.Signal" -className signal signal signal
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\test" -a "E:\Datasets\pedestrian_signal\test.ann.GoStop" -className go stop stop
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\test" -a "E:\Datasets\pedestrian_signal\test.ann.GoStopOff" -className go stop off
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\valid" -a "E:\Datasets\pedestrian_signal\valid.ann.Signal" -className signal signal signal
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\valid" -a "E:\Datasets\pedestrian_signal\valid.ann.GoStop" -className go stop stop
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\valid" -a "E:\Datasets\pedestrian_signal\valid.ann.GoStopOff" -className go stop off
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\train" -a "E:\Datasets\pedestrian_signal\train.ann.Signal" -className signal signal signal
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\train" -a "E:\Datasets\pedestrian_signal\train.ann.GoStop" -className go stop stop
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\train" -a "E:\Datasets\pedestrian_signal\train.ann.GoStopOff" -className go stop off
+
+
+python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\test" -a "E:\Datasets\pedestrian_signal\temp" -className go stop off
