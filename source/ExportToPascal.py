@@ -48,12 +48,17 @@ def run(image_path, ann_path, classNameList = ["someclass"]):
     valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
 
     #print(image_path)
+    classes_qtd = []
+    images_total_qtd = 0
+    images_without_classes_qtd = 0
 
     xml_list = []
     for filename in os.listdir(image_path):
         name, ext = os.path.splitext(filename)
         if ext.lower() not in valid_images:
             continue
+
+        images_total_qtd = images_total_qtd + 1
 
         xmlFileName = os.path.join(ann_path,name+".xml")
 
@@ -68,6 +73,13 @@ def run(image_path, ann_path, classNameList = ["someclass"]):
         if len(points)>0:
             for point in points:
                 annotation.append(instance_to_xml(point, classNameList))
+                iclass = int(point[4]) 
+                while len(classes_qtd) < iclass+1:
+                    classes_qtd.append(0)
+
+                classes_qtd[iclass] = classes_qtd[iclass] + 1
+        else:
+            images_without_classes_qtd = images_without_classes_qtd + 1
 
 
         #print(etree.tostring(annotation, pretty_print=True))
@@ -75,6 +87,15 @@ def run(image_path, ann_path, classNameList = ["someclass"]):
         etree.ElementTree(annotation).write(xmlFileName)
 
     print('Successfully converted to xml PASCAL.')
+
+    print('Total Images: ', images_total_qtd)
+    print('Images without classes: ', images_without_classes_qtd)
+    print('Classes: ')
+    for q in classes_qtd:
+        print( q)
+
+
+
     return 
 
 

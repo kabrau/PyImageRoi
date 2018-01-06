@@ -175,9 +175,6 @@ filename,width,height,class,xmin,ymin,xmax,ymax
 ## ExportToPascal
 A tool to create a xml files (pascal) to each image
 
-note: Use 1 classname only, I will change
-
-
 ### RUN
 ```
 usage: ExportToPascal.py [-h] -p PATH -a ANNPATH 
@@ -194,9 +191,9 @@ optional arguments:
 ```
 
 ### Example
-> python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\images" -a "E:\Datasets\pedestrian_signal\images.ann_gostop" -className go stop stop <br>
+> python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\images" -a "E:\Datasets\pedestrian_signal\images.ann_gostop" -className go stop off <br>
 
-
+Ps: At the end, it shows total images and classes
 
 
 
