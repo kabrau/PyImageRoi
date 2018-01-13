@@ -102,3 +102,29 @@ python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\train" -a "E:\Dataset
 
 
 python ExportToPascal.py -p "E:\Datasets\pedestrian_signal\test" -a "E:\Datasets\pedestrian_signal\temp" -className go stop off
+
+
+python ExportToClassification.py -p E:\Datasets\pedestrian_signal\test -d E:\Datasets\pedestrian_signal\test.classification
+python ExportToClassification.py -p E:\Datasets\pedestrian_signal\valid -d E:\Datasets\pedestrian_signal\valid.classification
+python ExportToClassification.py -p E:\Datasets\pedestrian_signal\train -d E:\Datasets\pedestrian_signal\train.classification
+
+
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_small" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_small\groundtruth_small.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_small.ann.GoStop"
+
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_large" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_large\groundtruth_large.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\pedestrianlights_large.ann.GoStop"
+
+
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\02" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\02\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\02.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\03" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\03\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\03.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\04" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\04\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\04.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\05" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\05\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\05.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\06" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\06\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\06.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\07" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\07\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\07.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\08" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\08\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\08.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\09" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\09\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\09.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\10" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\10\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\10.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\11" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\11\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\11.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13.ann.GoStop"
+python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14.ann.GoStop"
