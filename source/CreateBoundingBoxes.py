@@ -25,6 +25,7 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
         qtd += 1
 
     obj = imageRegionOfInterest(path)
+
     obj.isSavePoints = True
     obj.pathToSave = path
     obj.classNumber = classNumber

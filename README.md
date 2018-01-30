@@ -6,6 +6,9 @@
 * ExportToCSV
 * ExportToPascal
 
+# Tools to measures
+* mAP
+
 ## ChangeImagesMaxSize
 A tool to change images max size into folder
 
@@ -220,6 +223,55 @@ optional arguments:
 Ps: At the end, it shows total images and classes
 
 
+## mAP
+Tool to calc mAP in Object Detection
 
+Returns in the console the mAP values   
+And inside each method folder create a subfolder named _chart with a pdf of the Precision Recall method
+
+You need a folder with Pascal VOC annotations, parameter --annpath
+
+And a root folder with one ou more  methods result folder, parameter --resultpath
+e.g:   
+> c:\results  <= root   
+> c:\results\faster   <= method result folder   
+> c:\results\ssd      <= method result folder   
+> c:\results\yolo     <= method result folder   
+
+Inside each method result folder, you need results files by classes   
+e.g:   
+cat.txt   
+dog.txt   
+mouse.txt   
+
+In the results files by class, the content is in this format:   
+filename confidence x1 y1 x2 y2   
+e.g:   
+file001 0.99862 441.5266 429.1418 504.2249 548.0778  
+file005 0.99757 466.8359 433.5500 531.3656 545.9105   
+file007 0.95728 495.3467 440.6576 554.5069 558.3262   
+
+
+
+### RUN
+```
+usage: mAP.py [-h] -a ANNPATH -r RESULTPATH -c [CLASS [CLASS ...]] -i IOU [-v [VERBOSE]]  
+  
+  
+optional arguments:  
+  -h, --help            show this help message and exit   
+  -a ANNPATH, --annpath ANNPATH  
+                        Pascal VOC annotation path  
+  -r RESULTPATH, --resultpath RESULTPATH  
+                        Path of method results  
+  -c [CLASS [CLASS ...]], --class [CLASS [CLASS ...]]  
+                        list of class, e.g. --classes dog cat mouse  
+  -i IOU, --IOU IOU     IOU confidence threshold, e.g. 0.5  
+  -v [VERBOSE], --verbose [VERBOSE]  
+                        show verbose  
+```
+
+### Example
+> python mAP.py -a E:\Datasets\signal\test.ann.GoStop -r E:\GitHub\PedestrialTrafficLight\accurace_calc\results\3C\ -c cat dog mouse -i 0.5
 
 
