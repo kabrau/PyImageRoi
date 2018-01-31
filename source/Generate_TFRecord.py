@@ -29,12 +29,12 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'sinaleira':
+    if row_label == 'go':
         return 1
-    elif row_label == 'Go':
-        return 1
-    elif row_label == 'Stop':
+    elif row_label == 'stop':
         return 2
+    elif row_label == 'off':
+        return 3
     else:
         None
 
@@ -103,4 +103,22 @@ def main(_):
 
 
 if __name__ == '__main__':
+    print()
+    print()
+    print()
+    print('==========================================================================')
+    print('                      ATENTION                                            ')
+    print()
+    print('                      ATENTION                                            ')
+    print()
+    print()
+    print('Hi body - dont forget update the function "class_text_to_int(row_label) " ')
+    print()
+    print('==========================================================================')
+    print()
+    print()
+    print()
+
     tf.app.run()
+
+
