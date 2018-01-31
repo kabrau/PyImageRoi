@@ -13,7 +13,7 @@ from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot as plt
 import cv2
-sys.path.append("..")
+#sys.path.append("..")
 from utils import label_map_util
 from utils import visualization_utils as vis_util
 import re
@@ -43,7 +43,7 @@ category_index = label_map_util.create_category_index(categories)
 
 models_base_path = "C:/Users/marcelo/Google Drive/Doutorado/WCCI2018/5971774/frozen"
 models_path = os.listdir(models_base_path)
-print(models_path)
+#print(models_path)
 models_path.sort(key=natural_keys)
 
 #with open(TEST_PATH, "rb") as f:
@@ -52,7 +52,7 @@ models_path.sort(key=natural_keys)
 models_path = ['AAA']
 for model_path in models_path:
   tf.reset_default_graph()
-  print (model_path)
+  #print (model_path)
   #PATH_TO_CKPT = os.path.join(models_base_path, model_path, "frozen_inference_graph.pb")
   PATH_TO_CKPT = os.path.join(models_base_path, "frozen_inference_graph.pb")
 
@@ -74,15 +74,19 @@ for model_path in models_path:
   outfiles += [open(dest_path + model_path+"/stop.txt","w")]
   outfiles += [open(dest_path + model_path+"/off.txt","w")]
   
+  print("=======================================================")
+  print(outfiles)
+  print("=======================================================")
+
   plot_results = False
-  show_time = True
+  show_time = False
 
   test_files = os.listdir("E:/Datasets/pedestrianlights-5971774/test") 
 
   with detection_graph.as_default():
       with tf.Session(graph=detection_graph) as sess:
           for image_path in test_files:
-              print ( os.path.join(TEST_PATH, image_path)) 
+              #print ( os.path.join(TEST_PATH, image_path)) 
               image = cv2.imread(os.path.join(TEST_PATH, image_path))
               image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
               image_np = image.copy()

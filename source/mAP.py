@@ -168,18 +168,14 @@ def voc_ap(rec, prec):
 
 def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
 
-    best_precision = 0
-    best_recall = 0
-    best_f = 0
-    best_p_threshold = 0
-    best_r_threshold = 0
-    best_f_threshold = 0
+
     best_t_thres_values = []
     
     results_list = os.listdir(results_path)
     results_list.sort(key=natural_keys)
 
     for results in results_list:
+
         recall_values = defaultdict(list)
         precision_values = defaultdict(list)
         print()
@@ -190,8 +186,21 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
         if not os.path.exists(results_chart_path):
             os.makedirs(results_chart_path)
 
+
         for CLASS in classes:                    
-            
+
+            best_precision = 0
+            best_recall = 0
+            best_f = 0
+            best_p_threshold = 0
+            best_r_threshold = 0
+            best_f_threshold = 0
+
+            best_simple_precision = 0
+            best_simple_recall = 0
+            best_simple_p_threshold = 0
+            best_simple_r_threshold = 0
+
             print( "class ->", os.path.join(results_path, results, CLASS+".txt"))
             PREDICTIONS_PATH = os.path.join(results_path, results, CLASS+".txt")
 
@@ -230,11 +239,30 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                 tp = 0
                 fp = 0
                 fn = 0
-                sc = 0     
+                sc = 0  
+
+                tp_total = 0
+                fp_total = 0 
+                fn_total = 0
 
                 for pred_key,predicted_boxes in predictions_dict.items(): #.iteritems():
                     truth_boxes = list(truth_dict[pred_key])
                     predicted_boxes = list(predicted_boxes)
+
+                    #========== SIMPLE
+                    simple_predicted_boxes = [b for b in predicted_boxes if b.score >= SCORE_THRESH]
+
+                    if (len(truth_boxes) == len(simple_predicted_boxes)):
+                        tp_total = tp_total + len(truth_boxes)
+                        
+                    elif (len(truth_boxes) < len(simple_predicted_boxes)):
+                        tp_total = tp_total + len(truth_boxes)
+                        fp_total = fp_total + len(simple_predicted_boxes) - len(truth_boxes)
+
+                    elif (len(truth_boxes) > len(simple_predicted_boxes)):
+                        tp_total = tp_total + len(simple_predicted_boxes)
+                        fn_total = fn_total + len(truth_boxes) - len(simple_predicted_boxes) 
+                    #================
 
                     truth_detected = []
                     pred_detected = []
@@ -264,12 +292,22 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                 precision_values[CLASS] += [precision(tp, fp)]
                 recall_values[CLASS] += [recall(tp, fn)]
 
+                #========== SIMPLE
+                if precision(tp_total, fp_total) > best_simple_precision:
+                    best_simple_precision = precision(tp_total, fp_total)
+                    best_simple_p_threshold = SCORE_THRESH
+
+                if recall(tp_total, fn_total) > best_simple_recall:
+                    best_simple_recall = recall(tp_total, fn_total)
+                    best_simple_r_threshold = SCORE_THRESH
+                #==================
+
                 if recall(tp, fn) < 0.01:
                     break
 
-                result =  "TP:{} FP:{} FN:{} Precision:{} Recall:{} F:{} Score Threshold:{}".format(tp, fp, fn, precision(tp, fp), recall(tp, fn), f_measure(precision(tp, fp), recall(tp, fn)), SCORE_THRESH)            
                 if verbose:
-                    print( result)
+                    result =  "TP:{} FP:{} FN:{} Precision:{} Recall:{} F:{} Score Thresh:{}".format(tp, fp, fn, precision(tp, fp), recall(tp, fn), f_measure(precision(tp, fp), recall(tp, fn)), SCORE_THRESH)
+                    print( result )
 
                 if precision(tp, fp) > best_precision:
                     best_precision = precision(tp, fp)
@@ -287,6 +325,10 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
             print( "PRECISION", CLASS, best_precision, best_p_threshold)
             print( "RECALL", CLASS, best_recall, best_r_threshold                        )
             print( "F", CLASS, best_f, best_f_threshold)
+
+            print( "Simple Recall {} {}".format(best_simple_recall, best_simple_p_threshold) )
+            print( "Simple Precision {} {}".format(best_simple_precision, best_simple_r_threshold) )
+
             best_t_thres_values += [best_f_threshold]                     
 
             colors = cycle(['red', 'gold', 'aqua', 'magenta'])
@@ -329,7 +371,7 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
         f.savefig(os.path.join(results_chart_path,"chart.pdf"))                
         plt.close("all")
 
-        print('---- mAPs of ',results,'---')
+        print('\n---- mAPs of ',results,'---')
         values = 0.0
         for classe in classes:
             print(classe, voc_ap(np.flip(recall_values[classe][1:-1],0), np.flip(precision_values[classe][1:-1],0)))
@@ -353,9 +395,13 @@ if __name__ == "__main__":
     ap.add_argument("-c", '--class', required=True, nargs='*', help='list of class, e.g. --classes dog cat mouse')
     ap.add_argument("-i", '--IOU', required=True, type=float, help='IOU confidence threshold, e.g. 0.5')
     ap.add_argument("-v", "--verbose", nargs='?', type=bool, default=False, required=False, help="show verbose")
+    ap.add_argument("-s", '--SCORE_THRESH', required=False, default=0.0, type=float, help='Score threshold, e.g. 0.0')
+    
 
     args = vars(ap.parse_args())
 
-    run(args["annpath"], args["resultpath"], args["class"], args["IOU"], 0.0, (args["verbose"] is None))
+    
+    run(args["annpath"], args["resultpath"], args["class"], args["IOU"], args["SCORE_THRESH"], (args["verbose"] is None))
 
 # python mAP.py -a E:\Datasets\signal\test.ann.GoStop -r E:\GitHub\PedestrialTrafficLight\accurace_calc\results\3C\ -c go stop off -i 0.5
+# python mAP.py -a E:\Datasets\pedestrianlights-5971774\test.ann -r C:\tempo\ -c go stop off -i 0.5
