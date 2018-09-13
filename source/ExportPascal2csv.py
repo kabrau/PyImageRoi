@@ -2,7 +2,7 @@ import os
 import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
-
+import argparse
 
 def xml_to_csv(path):
     xml_list = []
@@ -26,20 +26,18 @@ def xml_to_csv(path):
     return xml_df
 
 
-def main():
-    image_path = "E:/Datasets/pedestrianlights-5971774/valid.ann" #os.path.join(os.getcwd(), 'annotations')
-    xml_df = xml_to_csv(image_path)
-    xml_df.to_csv('E:/Datasets/pedestrianlights-5971774/valid.ann/gt.csv', index=None)
-
-    image_path = "E:/Datasets/pedestrianlights-5971774/test.ann" #os.path.join(os.getcwd(), 'annotations')
-    xml_df = xml_to_csv(image_path)
-    xml_df.to_csv('E:/Datasets/pedestrianlights-5971774/test.ann/gt.csv', index=None)
-
-    image_path = "E:/Datasets/pedestrianlights-5971774/train.ann" #os.path.join(os.getcwd(), 'annotations')
-    xml_df = xml_to_csv(image_path)
-    xml_df.to_csv('E:/Datasets/pedestrianlights-5971774/train.ann/gt.csv', index=None)
+def run(path, output):
+    xml_df = xml_to_csv(path)
+    xml_df.to_csv(output, index=None)
 
     print('Successfully converted xml to csv.')
 
+#=============================================================================
+# construct the argument parser and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-p", "--path", required=True, help="annotations path")
+ap.add_argument("-o", "--output", required=True, help="csv output file")
 
-main()
+args = vars(ap.parse_args())
+
+run(args["path"], args["output"])

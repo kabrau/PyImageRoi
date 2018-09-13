@@ -9,7 +9,7 @@ from libraryTools import imageRegionOfInterest
 
 def to_csv(path):
 
-    classNameList = ["Go", "Stop", "Stop"]
+    classNameList = ["ascending_stair", "descending_stair", "door", "elevator_door"]
 
     obj = imageRegionOfInterest(path)
     valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
@@ -23,6 +23,7 @@ def to_csv(path):
             continue
 
         obj.setFileImage(filename)
+        print(filename)
         points = obj.loadBoxFromTxt() 
         if len(points)>0:
             obj.loadFromFile()            
@@ -31,7 +32,7 @@ def to_csv(path):
                 value = (filename,
                         int(obj.image.shape[1]),
                         int(obj.image.shape[0]),
-                        classNameList[iclass], #"sinaleira",
+                        classNameList[iclass], 
                         int(point[0]),
                         int(point[1]),
                         int(point[2]),
