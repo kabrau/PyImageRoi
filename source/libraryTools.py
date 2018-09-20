@@ -6,6 +6,7 @@ import os
 import sys
 import numpy as np
 from win32api import GetSystemMetrics
+import traceback
 
 class imageRegionOfInterest:
 
@@ -15,6 +16,7 @@ class imageRegionOfInterest:
     def __init__(self, _path):
         self.path = _path
         self.points = []
+        self.last_points = []
         self.image = None
         self.originalImage = None
         self.windowName = ""
@@ -146,6 +148,15 @@ class imageRegionOfInterest:
 
         return className
 
+    def paintClassName(self):
+        cv2.rectangle(self.image, (5,5), (200,30), (150,150,150), thickness=-1, lineType=8, shift=0) 
+        cv2.putText(self.image, "("+str(len(self.points))+") "+self.loadClassName(self.classNumber), (10,20) , cv2.FONT_HERSHEY_SIMPLEX, 0.5, (50,50,50), 1)
+
+    def RefreshSelectedClass(self):
+        self.paintClassName()
+        cv2.imshow(self.windowName, self.image)
+
+    
 
     def refresh(self):
         self.image = self.originalImage.copy()
@@ -163,8 +174,13 @@ class imageRegionOfInterest:
             final_width = int(width * self.scale)
             self.image = cv2.resize(self.image,(final_width, final_height), interpolation = cv2.INTER_CUBIC)
 
-        #print("points: ",self.points)
+        self.paintClassName()
+
+        print("points: ", len(self.points))
+
+        last = len(self.points)
         for pt in self.points:
+            last = last - 1
             cor = int(pt[2])
 
             pt0 = list(pt[0])
@@ -174,8 +190,13 @@ class imageRegionOfInterest:
             pt1[0] = int(pt[1][0] * self.scale)
             pt1[1] = int(pt[1][1] * self.scale)
             
-            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(tuple(pt0)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
-            #print(pt, tuple(pt0), tuple(pt1))
+            if last==0:
+                thickness = 2
+            else:
+                thickness = 1
+
+            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(tuple(pt0)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor], thickness)
+            
             cv2.rectangle(self.image, tuple(pt0), tuple(pt1), self.colorList[cor], 2)
 
         cv2.imshow(self.windowName, self.image)
@@ -230,11 +251,47 @@ class imageRegionOfInterest:
             del self.points[-1]
             self.refresh()
 
+
+    def shift(seq, n=0):
+        a = n % len(seq)
+        return seq[-a:] + seq[:-a]
+
+    def shiftLastBoundingBox(self):
+        if len(self.points) > 1:
+            self.points = self.points[-1:] + self.points[:-1]
+            self.refresh()
+
+    def moveLastBox(self, x, y):
+        if len(self.points) > 0:
+            pt1 = list(self.points[-1][0])
+            pt2 = list(self.points[-1][1])
+            x1 = max(0,pt1[0] + x)
+            y1 = max(0,pt1[1] + y)
+            height, width = self.image.shape[:2]
+            x2 = min(width/self.scale, pt2[0] + x)
+            y2 = min(height/self.scale, pt2[1] + y)
+
+            #print(width/self.scale, pt2[0] + x, pt1[0] + x)
+            #print(height/self.scale, pt2[1] + y, pt1[1] + y)
+
+            self.points[-1][0] = (x1, y1)
+            self.points[-1][1] = (x2, y2)
+            self.refresh()
+
+    def copyLastBoundingBoxes(self):
+        for pt in self.last_points:
+            if not pt in self.points:
+                self.points.append(pt)
+        print("copyLastBoundingBoxes "+str(len(self.points)))
+        self.refresh()
+
     def savePoints(self):
         l = []
         for pt in self.points:
             l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1], self.originalImage.shape[1], self.originalImage.shape[0] ])
-        #np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =' ',newline='\n')  
+        
+        self.last_points = self.points.copy()
+        print("salved points "+str(len(self.last_points)))
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
 
