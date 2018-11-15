@@ -1,12 +1,18 @@
 # Capturing image ROI with Python and OpenCV
 # 31/01/2017 - Marcelo Cabral 
+from __future__ import division #Case python2
 
 import cv2
 import os
 import sys
 import numpy as np
-from win32api import GetSystemMetrics
 import traceback
+
+try:#Case Windows
+    from win32api import GetSystemMetrics
+except:#Case Linux
+    pass
+
 
 class imageRegionOfInterest:
 
@@ -167,8 +173,16 @@ class imageRegionOfInterest:
             final_width = width 
         
         else:
-            screen_width = GetSystemMetrics(0)
-            screen_height = GetSystemMetrics(1)
+            try:
+                screen_width = GetSystemMetrics(0)
+                screen_height = GetSystemMetrics(1)
+            except:
+                info = os.popen("xrandr | grep '*'").read()
+                i = info.rindex(' ')
+                info = info[:i].strip().split('x')
+                screen_width = int(info[0])
+                screen_height = int(info[1])
+                
             final_height = int(screen_height * 0.9)
             self.scale = final_height/height
             final_width = int(width * self.scale)

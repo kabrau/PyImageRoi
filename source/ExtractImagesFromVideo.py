@@ -14,7 +14,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-p","--videosPath", required=True, help="videos input path")
 ap.add_argument("-o","--outputPath", required=True, help="images output path")
 ap.add_argument("-f", "--fps", required=False, default=3, type=int, help='extract frames por seconds')
-ap.add_argument("orientation", choices=['portrait','landscape'], help='portrait (default) or landscape')
+ap.add_argument("orientation", nargs = '?', choices=['portrait','landscape'], default="portrait", help='portrait (default) or landscape')
 
 ap.add_argument("-n", "--new", required=False, dest='justNew', action='store_const', const=True, default=False,
                       help='Extracts only from videos without extraction (new video)')

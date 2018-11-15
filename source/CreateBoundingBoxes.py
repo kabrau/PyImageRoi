@@ -51,7 +51,7 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
 
         obj.loadImage(filename)
         
-
+        wait = 10
         # keep looping until the 'q' key is pressed
         while True:
             
@@ -126,12 +126,14 @@ def run(path, isFirstEmpty = False, classNumber = "0", classNameList = None):
             
             
             # quit
-            elif key == ord("q") or key == 27:
+            elif key == ord("q") or key == 27 or cv2.getWindowProperty(filename,1)+wait == -1:
                 print('quit')
                 if len(obj.points)>0:
                     obj.savePoints()
                 return
-        
+            
+            wait = wait - 1 if wait > 0 else wait
+
 #=============================================================================
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
