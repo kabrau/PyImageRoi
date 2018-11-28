@@ -1,12 +1,20 @@
 # Capturing image ROI with Python and OpenCV
 # 31/01/2017 - Marcelo Cabral 
+from __future__ import division #Case python2
 
 import cv2
 import os
 import sys
 import numpy as np
-from win32api import GetSystemMetrics
 import traceback
+
+try:#Case Windows
+    from win32api import GetSystemMetrics
+except:#Case Linux
+    pass
+
+from copy import copy
+
 
 class imageRegionOfInterest:
 
@@ -81,7 +89,8 @@ class imageRegionOfInterest:
 
     def loadFromFile(self):
         self.image = cv2.imread(os.path.join(self.path,self.fileName))    
-        self.originalImage = self.image.copy()
+        # self.originalImage = self.image.copy()
+        self.originalImage = copy(self.image)
 
     def extractBox(self, pathName, fileName, point):
         image = self.image[point[1]:point[3],point[0]:point[2]]
@@ -159,7 +168,7 @@ class imageRegionOfInterest:
     
 
     def refresh(self):
-        self.image = self.originalImage.copy()
+        self.image = copy(self.originalImage)
         height, width = self.image.shape[:2]
 
         if self.noScale:
@@ -167,8 +176,16 @@ class imageRegionOfInterest:
             final_width = width 
         
         else:
-            screen_width = GetSystemMetrics(0)
-            screen_height = GetSystemMetrics(1)
+            try:#Windows
+                screen_width = GetSystemMetrics(0)
+                screen_height = GetSystemMetrics(1)
+            except:#Linux
+                info = os.popen("xrandr | grep '*'").read()
+                i = info.rindex(' ')
+                info = info[:i].strip().split('x')
+                screen_width = int(info[0])
+                screen_height = int(info[1])
+                
             final_height = int(screen_height * 0.9)
             self.scale = final_height/height
             final_width = int(width * self.scale)
@@ -207,7 +224,7 @@ class imageRegionOfInterest:
 
     def showTemporarySelectArea(self, x, y):
         if (self.startedSelectArea):
-            img = self.originalImage.copy()
+            img = copy(self.originalImage)
 
             height, width = img.shape[:2]
             final_width = int(width * self.scale)
@@ -290,7 +307,7 @@ class imageRegionOfInterest:
         for pt in self.points:
             l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1], self.originalImage.shape[1], self.originalImage.shape[0] ])
         
-        self.last_points = self.points.copy()
+        self.last_points = copy(self.points)
         print("salved points "+str(len(self.last_points)))
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
