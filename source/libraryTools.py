@@ -1,12 +1,21 @@
 # Capturing image ROI with Python and OpenCV
 # 31/01/2017 - Marcelo Cabral 
+from __future__ import division #Case python2
 
 import cv2
 import os
 import sys
 import math
 import numpy as np
-from win32api import GetSystemMetrics
+import traceback
+
+try:#Case Windows
+    from win32api import GetSystemMetrics
+except:#Case Linux
+    pass
+
+from copy import copy
+
 
 class imageRegionOfInterest:
 
@@ -16,6 +25,7 @@ class imageRegionOfInterest:
     def __init__(self, _path):
         self.path = _path
         self.points = []
+        self.last_points = []
         self.image = None
         self.originalImage = None
         self.windowName = ""
@@ -80,7 +90,8 @@ class imageRegionOfInterest:
 
     def loadFromFile(self):
         self.image = cv2.imread(os.path.join(self.path,self.fileName))    
-        self.originalImage = self.image.copy()
+        # self.originalImage = self.image.copy()
+        self.originalImage = copy(self.image)
 
     def extractBox(self, pathName, fileName, point):
         image = self.image[point[1]:point[3],point[0]:point[2]]
@@ -190,9 +201,18 @@ class imageRegionOfInterest:
 
         return className
 
+    def paintClassName(self):
+        cv2.rectangle(self.image, (5,5), (200,30), (150,150,150), thickness=-1, lineType=8, shift=0) 
+        cv2.putText(self.image, "("+str(len(self.points))+") "+self.loadClassName(self.classNumber), (10,20) , cv2.FONT_HERSHEY_SIMPLEX, 0.5, (50,50,50), 1)
+
+    def RefreshSelectedClass(self):
+        self.paintClassName()
+        cv2.imshow(self.windowName, self.image)
+
+    
 
     def refresh(self):
-        self.image = self.originalImage.copy()
+        self.image = copy(self.originalImage)
         height, width = self.image.shape[:2]
 
         if self.noScale:
@@ -200,15 +220,28 @@ class imageRegionOfInterest:
             final_width = width 
         
         else:
-            screen_width = GetSystemMetrics(0)
-            screen_height = GetSystemMetrics(1)
+            try:#Windows
+                screen_width = GetSystemMetrics(0)
+                screen_height = GetSystemMetrics(1)
+            except:#Linux
+                info = os.popen("xrandr | grep '*'").read()
+                i = info.rindex(' ')
+                info = info[:i].strip().split('x')
+                screen_width = int(info[0])
+                screen_height = int(info[1])
+                
             final_height = int(screen_height * 0.9)
             self.scale = final_height/height
             final_width = int(width * self.scale)
             self.image = cv2.resize(self.image,(final_width, final_height), interpolation = cv2.INTER_CUBIC)
 
-        #print("points: ",self.points)
+        self.paintClassName()
+
+        print("points: ", len(self.points))
+
+        last = len(self.points)
         for pt in self.points:
+            last = last - 1
             cor = int(pt[2])
 
             pt0 = list(pt[0])
@@ -218,8 +251,13 @@ class imageRegionOfInterest:
             pt1[0] = int(pt[1][0] * self.scale)
             pt1[1] = int(pt[1][1] * self.scale)
             
-            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(tuple(pt0)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor],2)
-            #print(pt, tuple(pt0), tuple(pt1))
+            if last==0:
+                thickness = 2
+            else:
+                thickness = 1
+
+            cv2.putText(self.image,self.loadClassName(pt[2]),self.textPoint(tuple(pt0)), cv2.FONT_HERSHEY_SIMPLEX, 0.8, self.colorList[cor], thickness)
+            
             cv2.rectangle(self.image, tuple(pt0), tuple(pt1), self.colorList[cor], 2)
 
         cv2.imshow(self.windowName, self.image)
@@ -230,7 +268,7 @@ class imageRegionOfInterest:
 
     def showTemporarySelectArea(self, x, y):
         if (self.startedSelectArea):
-            img = self.originalImage.copy()
+            img = copy(self.originalImage)
 
             height, width = img.shape[:2]
             final_width = int(width * self.scale)
@@ -274,11 +312,47 @@ class imageRegionOfInterest:
             del self.points[-1]
             self.refresh()
 
+
+    def shift(seq, n=0):
+        a = n % len(seq)
+        return seq[-a:] + seq[:-a]
+
+    def shiftLastBoundingBox(self):
+        if len(self.points) > 1:
+            self.points = self.points[-1:] + self.points[:-1]
+            self.refresh()
+
+    def moveLastBox(self, x, y):
+        if len(self.points) > 0:
+            pt1 = list(self.points[-1][0])
+            pt2 = list(self.points[-1][1])
+            x1 = max(0,pt1[0] + x)
+            y1 = max(0,pt1[1] + y)
+            height, width = self.image.shape[:2]
+            x2 = min(width/self.scale, pt2[0] + x)
+            y2 = min(height/self.scale, pt2[1] + y)
+
+            #print(width/self.scale, pt2[0] + x, pt1[0] + x)
+            #print(height/self.scale, pt2[1] + y, pt1[1] + y)
+
+            self.points[-1][0] = (x1, y1)
+            self.points[-1][1] = (x2, y2)
+            self.refresh()
+
+    def copyLastBoundingBoxes(self):
+        for pt in self.last_points:
+            if not pt in self.points:
+                self.points.append(pt)
+        print("copyLastBoundingBoxes "+str(len(self.points)))
+        self.refresh()
+
     def savePoints(self):
         l = []
         for pt in self.points:
             l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1], self.originalImage.shape[1], self.originalImage.shape[0] ])
-        #np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%6.0f', delimiter =' ',newline='\n')  
+        
+        self.last_points = copy(self.points)
+        print("salved points "+str(len(self.last_points)))
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
 
