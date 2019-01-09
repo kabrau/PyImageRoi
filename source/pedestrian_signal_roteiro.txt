@@ -128,3 +128,6 @@ python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedest
 python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\12.ann.GoStop"
 python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\13.ann.GoStop"
 python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14.ann.GoStop"
+
+
+python ExportToClassification.py -p E:\Datasets\signalDA\PortoAlegre -d E:\Datasets\signalClass

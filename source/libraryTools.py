@@ -4,6 +4,7 @@
 import cv2
 import os
 import sys
+import math
 import numpy as np
 from win32api import GetSystemMetrics
 
@@ -87,6 +88,49 @@ class imageRegionOfInterest:
         if not os.path.exists(pathName):
             os.makedirs(pathName)
         cv2.imwrite(os.path.join(pathName,fileName), image)
+
+    def extractBoxM(self, pathName, fileName, point, margemArea, finalSquad):
+        w_m = int(abs(point[3]-point[1])*margemArea)
+        h_m = int(abs(point[2]-point[0])*margemArea)
+        point[1] = point[1] - w_m
+        point[3] = point[3] + w_m
+        point[0] = point[0] - h_m
+        point[2] = point[2] + h_m
+
+        continuar = True
+        while continuar:
+            if w_m<h_m:
+                point[3] = point[3] + 1
+                point[1] = point[1] - 1
+                if abs(point[3]-point[1]) >= abs(point[2]-point[0]) or point[3]>=len(self.image) or point[1]<0:
+                    continuar = False
+
+            else:
+                point[2] = point[2] + 1
+                point[0] = point[0] - 1
+                if abs(point[3]-point[1]) <= abs(point[2]-point[0]) or point[2]>=len(self.image[0]) or point[0]<0:
+                    continuar = False
+
+
+        if point[3]>=len(self.image):
+            point[1] = point[1] + point[3]-len(self.image)-1
+            point[3] = len(self.image)-1
+        if point[2]>=len(self.image[0]):
+            point[0] = point[0] + point[2]-len(self.image[0])-1
+            point[2] = len(self.image[0])-1
+        if point[1]<0:
+            point[3] = point[3] + abs(point[1])
+            point[1] = 0
+        if point[0]<0:
+            point[2] = point[2] + abs(point[0])
+            point[0] = 0
+
+        image = self.image[point[1]:point[3],point[0]:point[2]]
+        image = cv2.resize(image,(finalSquad, finalSquad), interpolation = cv2.INTER_CUBIC)
+        
+        if not os.path.exists(pathName):
+            os.makedirs(pathName)
+        cv2.imwrite(os.path.join(pathName,fileName), image)        
 
     def loadImage(self, _filename):
 

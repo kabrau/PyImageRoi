@@ -5,6 +5,10 @@ from libraryTools import imageRegionOfInterest
 #=============================================================================
 def run(path, destPath):
 
+    margemArea = 0.5
+    finalSquad = 100
+    
+
     obj = imageRegionOfInterest(path)
 
     valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
@@ -25,7 +29,10 @@ def run(path, destPath):
             boxNumber = 0
             for point in points:
                 name, ext = os.path.splitext(filename)
-                obj.extractBox(os.path.join(destPath,point[4]),name+"-"+str(boxNumber)+ext, point)
+                if margemArea!=0:
+                    obj.extractBoxM(os.path.join(destPath,point[4]),name+"-"+str(boxNumber)+ext, point, margemArea, finalSquad)
+                else:
+                    obj.extractBox(os.path.join(destPath,point[4]),name+"-"+str(boxNumber)+ext, point)
                 boxNumber += 1
         
         qtd += 1
@@ -35,6 +42,7 @@ def run(path, destPath):
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--path", required=True, help="images path")
 ap.add_argument("-d", "--dest", required=True, help="destination images path")
+
 
 args = vars(ap.parse_args())
 
