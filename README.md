@@ -5,6 +5,7 @@
 * ExportToClassification
 * ExportToCSV
 * ExportToPascal
+* Import from txt ground truth - format Wider Face
 
 # Tools to measures
 * mAP
@@ -274,4 +275,27 @@ optional arguments:
 ### Example
 > python mAP.py -a E:\Datasets\signal\test.ann.GoStop -r E:\GitHub\PedestrialTrafficLight\accurace_calc\results\3C\ -c cat dog mouse -i 0.5
 
+
+## Import from txt ground truth - format Wider Face
+
+Wider Face - A Face Detection dataset to Benchmark 
+http://mmlab.ie.cuhk.edu.hk/projects/WIDERFace/index.html
+
+### The format of txt ground truth.
+File name  
+Number of bounding box  
+x1, y1, w, h, blur, expression, illumination, invalid, occlusion, pose  
+
+### RUN
+```
+usage: ImportFromTxtGT_01.py [-h] -p PATH -f FILE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  images path
+  -f FILE, --file FILE  ground truth file
+```
+
+### Example
+> python importFromTxtGT_01.py -p E:/datasets/FaceDataset/Wider/WIDER_train/images/ -f E:/datasets/FaceDataset/Wider/wider_face_split/wider_face_train_bbx_gt.txt
 

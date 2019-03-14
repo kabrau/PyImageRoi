@@ -352,7 +352,7 @@ class imageRegionOfInterest:
             l.append([int(pt[2]), pt[0][0], pt[0][1], pt[1][0]-pt[0][0], pt[1][1]-pt[0][1], self.originalImage.shape[1], self.originalImage.shape[0] ])
         
         self.last_points = copy(self.points)
-        print("salved points "+str(len(self.last_points)))
+        print(self.fileNameTxt+" salved points "+str(len(self.last_points)))
         np.savetxt(self.fileNameTxt, np.asarray(l),fmt='%d', delimiter =' ',newline='\n')  
 
 
