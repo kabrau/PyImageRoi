@@ -36,7 +36,7 @@ def load_tfrecord(file_name):
         #print(tf.expand_dims(example['x'], 0))
         data.append(tf.expand_dims(example['x'], 0))
         tot += 1
-        break
+        #break
     print(tot)
     #return tf.concat(0, data)
 

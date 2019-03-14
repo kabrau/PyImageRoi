@@ -5,8 +5,8 @@ from libraryTools import imageRegionOfInterest
 #=============================================================================
 def run(path, destPath):
 
-    margemArea = 0.5
-    finalSquad = 100
+    margemArea = 0.2
+    finalSquad = 50
     
 
     obj = imageRegionOfInterest(path)

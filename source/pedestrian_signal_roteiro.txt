@@ -130,4 +130,10 @@ python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedest
 python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\14.ann.GoStop"
 
 
-python ExportToClassification.py -p E:\Datasets\signalDA\PortoAlegre -d E:\Datasets\signalClass
+python ExportToClassification.py -p E:\Datasets\signalDA\PortoAlegre -d E:\Datasets\signalClassPortoAlegre50
+python ExportToClassification.py -p E:\datasets\signalDA\Canoas -d E:\datasets\signalClassCanoas50
+
+
+
+
+
