@@ -15,28 +15,33 @@ import os
 import io
 import pandas as pd
 import tensorflow as tf
+import argparse
 
 from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-flags = tf.app.flags
-flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
-flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
-flags.DEFINE_string('images_path', '', 'Path for Images')
-FLAGS = flags.FLAGS
 
+#----------------------------------------------------------------------------------------
+ap = argparse.ArgumentParser()
+ap.add_argument("-c", "--csv_input", required=True, help="Path to the CSV input")
+ap.add_argument("-o", "--output_path", required=True, help="Path to output TFRecord")
+ap.add_argument("-i", "--images_path", required=False, help="Path for Images, If dont have into CSV")
+
+args = vars(ap.parse_args())
+
+#----------------------------------------------------------------------------------------
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'go':
+    if row_label == 'face':
         return 1
-    elif row_label == 'stop':
-        return 2
-    elif row_label == 'off':
-        return 3
-    else:
-        None
+    #elif row_label == 'stop':
+    #    return 2
+    #elif row_label == 'off':
+    #    return 3
+    #else:
+    #    None
 
 
 def split(df, group):
@@ -46,13 +51,20 @@ def split(df, group):
 
 
 def create_tf_example(group, path):
-    with tf.gfile.GFile(os.path.join(path, '{}'.format(group.filename)), 'rb') as fid:
+    if path==None:
+        path = group.filename[1]
+
+    imageFile = os.path.join(path, '{}'.format(group.filename[0]))
+    if not os.path.isfile(imageFile):
+        raise Exception("File not found: "+imageFile)
+
+    with tf.gfile.GFile(imageFile, 'rb') as fid:
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
     width, height = image.size
 
-    filename = group.filename.encode('utf8')
+    filename = group.filename[0].encode('utf8')
     image_format = b'jpg'
     xmins = []
     xmaxs = []
@@ -87,21 +99,25 @@ def create_tf_example(group, path):
 
 
 def main(_):
-    writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
-    #path = os.path.join(os.getcwd(), 'images')
-    path = FLAGS.images_path
+    writer = tf.python_io.TFRecordWriter(args["output_path"])
+    path = args["images_path"]
 
-    examples = pd.read_csv(FLAGS.csv_input)
-    grouped = split(examples, 'filename')
+    examples = pd.read_csv(args["csv_input"])
+    if path==None:
+        grouped = split(examples, ['filename','path'])
+    else:
+        grouped = split(examples, ['filename'])
+
     for group in grouped:
         tf_example = create_tf_example(group, path)
         writer.write(tf_example.SerializeToString())
 
     writer.close()
-    output_path = os.path.join(os.getcwd(), FLAGS.output_path)
+    output_path = os.path.join(os.getcwd(), args["output_path"])
     print('Successfully created the TFRecords: {}'.format(output_path))
 
 
+#----------------------------------------------------------------------------------------
 if __name__ == '__main__':
     print()
     print()

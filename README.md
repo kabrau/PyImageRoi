@@ -4,8 +4,9 @@
 * CreateBoundingBoxes
 * ExportToClassification
 * ExportToCSV
-* ExportToPascal
-* Import from txt ground truth - format Wider Face
+* ExportToPascal (&#x1F53C; 2019-03-14)
+* Generate TFRecord - API Tensorflow (&#x1F53C; 2019-03-19)
+* Import from txt ground truth - format Wider Face (&#x1F53C; 2019-03-14)
 
 # Tools to measures
 * mAP
@@ -200,7 +201,6 @@ optional arguments:
 Ps: At the end, it shows total images and classes
 
 
-
 ## ExportToPascal.5971774
 Specific converter for PedestrianLights dataset available at: http://www.uni-muenster.de/PRIA/en/forschung/index.shtml  
 TOOL to Create a XML files (PASCAL FORMAT)  
@@ -222,6 +222,41 @@ optional arguments:
 > python ExportToPascal.5971774.py -p "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01" -o "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01\groundtruth.txt" -a "E:\Datasets\pedestrianlights-5971774\pedestrianlights\download\imagesequences\01.ann.GoStop" <br>
 
 Ps: At the end, it shows total images and classes
+
+
+## Generate TFRecord - API Tensorflow
+- **First**, convert from PASCAL to CSV, use: ExportPascal2csv.py
+- **Second**, generate TFRecord, use: Generate_TFRecord.py 
+
+### RUN
+```
+usage: ExportPascal2csv.py [-h] -p PATH -o OUTPUT [-a]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  annotations path
+  -o OUTPUT, --output OUTPUT
+                        csv output file
+  -a, --addPathCol      add path collumn  
+```
+```
+usage: Generate_TFRecord.py [-h] -c CSV_INPUT -o OUTPUT_PATH [-i IMAGES_PATH]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CSV_INPUT, --csv_input CSV_INPUT
+                        Path to the CSV input
+  -o OUTPUT_PATH, --output_path OUTPUT_PATH
+                        Path to output TFRecord
+  -i IMAGES_PATH, --images_path IMAGES_PATH
+                        Path for Images, If dont have into CSV
+```
+
+### Example
+> python ExportPascal2csv.py -p E:\datasets\FaceDataset\Wider\WIDER_train\train.ann -o E:\datasets\FaceDataset\Wider\WIDER_train\train.csv -a
+
+> python Generate_TFRecord.py --csv_input=E:\datasets\FaceDataset\Wider\WIDER_train\train.csv  --output_path=E:\datasets\FaceDataset\Wider\WIDER_train\train.record 
+
 
 
 ## mAP
