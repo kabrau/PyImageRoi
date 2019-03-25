@@ -1,5 +1,3 @@
-[![DOI](https://zenodo.org/badge/80071188.svg)](https://zenodo.org/badge/latestdoi/80071188)
-
 # Tools to annotate images
 * ChangeImagesMaxSize
 * ExtractImagesFromVideo
@@ -12,6 +10,19 @@
 
 # Tools to measures
 * mAP
+
+
+## Citation
+```
+@misc{marcelo_cabral_ghilardi_2019_2604909,
+  author       = {Marcelo Cabral Ghilardi},
+  title        = {kabrau/PyImageRoi: Tools to annotate images},
+  month        = mar,
+  year         = 2019,
+  doi          = {10.5281/zenodo.2604909},
+  url          = {https://doi.org/10.5281/zenodo.2604909}
+}
+```
 
 ## ChangeImagesMaxSize
 A tool to change images max size into folder
