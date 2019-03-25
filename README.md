@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/80071188.svg)](https://zenodo.org/badge/latestdoi/80071188)
+
 # Tools to annotate images
 * ChangeImagesMaxSize
 * ExtractImagesFromVideo
