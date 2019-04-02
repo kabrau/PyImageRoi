@@ -1,4 +1,4 @@
-Explanation in Portuguese https://bit.ly/2uoySQU
+<a href="https://bit.ly/2uoySQU" target="_blank">Explanation in Portuguese</a>
 
 # Tools to annotate images
 * ChangeImagesMaxSize
