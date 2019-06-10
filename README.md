@@ -9,6 +9,7 @@
 * ExportToPascal (&#x1F53C; 2019-03-14)
 * Generate TFRecord - API Tensorflow (&#x1F53C; 2019-03-19)
 * Import from txt ground truth - format Wider Face (&#x1F53C; 2019-03-14)
+* Convert CityscapeMask annotatiton to XML Pascal.py (&#x1F53C; 2019-06-10)
 
 # Tools to measures
 * mAP
@@ -348,3 +349,11 @@ optional arguments:
 ### Example
 > python importFromTxtGT_01.py -p E:/datasets/FaceDataset/Wider/WIDER_train/images/ -f E:/datasets/FaceDataset/Wider/wider_face_split/wider_face_train_bbx_gt.txt
 
+
+## Import from txt ground truth - format Wider Face
+Convert CityscapeMask annotatiton to XML Pascal.py
+
+Open code CityscapeMask2Pascal.py and set folders and classes
+
+### RUN
+> python CityscapeMask2Pascal.py
