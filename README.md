@@ -1,3 +1,5 @@
+[Explanation in Portuguese](https://bit.ly/2uoySQU)
+
 # Tools to annotate images
 * ChangeImagesMaxSize
 * ExtractImagesFromVideo
@@ -10,7 +12,6 @@
 
 # Tools to measures
 * mAP
-
 
 ## Citation
 ```
