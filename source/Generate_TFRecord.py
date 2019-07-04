@@ -34,14 +34,24 @@ args = vars(ap.parse_args())
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'face':
+    if row_label == 'car':
         return 1
-    #elif row_label == 'stop':
-    #    return 2
-    #elif row_label == 'off':
-    #    return 3
-    #else:
-    #    None
+    elif row_label == 'train':
+        return 2
+    elif row_label == 'bicycle':
+        return 3
+    elif row_label == 'person':
+        return 4
+    elif row_label == 'truck':
+        return 5
+    elif row_label == 'motorcycle':
+        return 6
+    elif row_label == 'bus':
+        return 7
+    elif row_label == 'rider':
+        return 8
+    else:
+        None
 
 
 def split(df, group):
@@ -53,8 +63,11 @@ def split(df, group):
 def create_tf_example(group, path):
     if path==None:
         path = group.filename[1]
+        filename = group.filename[0]
+    else:
+        filename = group.filename
 
-    imageFile = os.path.join(path, '{}'.format(group.filename[0]))
+    imageFile = os.path.join(path, '{}'.format(filename))
     if not os.path.isfile(imageFile):
         raise Exception("File not found: "+imageFile)
 

@@ -18,8 +18,10 @@ from lxml import etree, objectify
 # Set folderers
 jsonfolder = 'E:/datasets/cityscape/gtFine_trainvaltest/gtFine/'
 imagesfolder = 'E:/datasets/cityscape/leftImg8bit_trainvaltest/leftImg8bit/'
-outputBboxfolder = 'E:/datasets/cityscape/BBox8class/'
+outputBboxfolder = 'E:/datasets/cityscape/BBoxCarclass/'
 
+# Set Labels to Include, if empty then all
+include_labels = ["car", "bicycle", "person", "rider", "motorcycle", "bus", "truck", "train"]
 
 # Set Labels to Exclude/Ignore
 exclude_labels = ['out_of_roi']
@@ -94,6 +96,10 @@ for fileName in jsonFiles:
             label = obj_json['label'].replace(' ','_')
             if label in exclude_labels:
                 continue
+
+            if len(include_labels)>0 and label not in include_labels:
+                continue
+
             if label not in categories:
                 categories.append(label)
 
