@@ -9,144 +9,101 @@ import PIL.Image
 import os,sys
 from lxml import etree, objectify
 
-#--------------------------------------------------------------------------
-# download files from https://www.cityscapes-dataset.com/downloads/
-# - gtFine_trainvaltest.zip (241MB) [md5]
-# - leftImg8bit_trainvaltest.zip (11GB) [md5]
-#--------------------------------------------------------------------------
+def cityscapeMask2Pascal(databaseName, extractedFolderAnn, outputFolderAnn, imagesFolder):
 
-# Set folderers
-jsonfolder = 'E:/datasets/cityscape/gtFine_trainvaltest/gtFine/'
-imagesfolder = 'E:/datasets/cityscape/leftImg8bit_trainvaltest/leftImg8bit/'
-outputBboxfolder = 'E:/datasets/cityscape/BBoxCarclass/'
+    print("extractedFolderAnn", extractedFolderAnn)
+    print("outputFolderAnn", outputFolderAnn)
+    print("imagesFolder", imagesFolder)
 
-# Set Labels to Include, if empty then all
-include_labels = ["car", "bicycle", "person", "rider", "motorcycle", "bus", "truck", "train"]
+    imageSufix = ""
+    if os.path.isfile(os.path.join(imagesFolder,"aachen_000000_000019_leftImg8bit.png")) or os.path.isfile(os.path.join(imagesFolder,"frankfurt_000000_000294_leftImg8bit.png")):
+       imageSufix = '_leftImg8bit.png'
+    elif os.path.isfile( os.path.join(imagesFolder,"aachen_000000_000019_leftImg8bit_foggy_beta_0.02.png")) or os.path.isfile( os.path.join(imagesFolder,"frankfurt_000000_000294_leftImg8bit_foggy_beta_0.02.png")):
+       imageSufix = '_leftImg8bit_foggy_beta_0.02.png'
+    elif os.path.isfile( os.path.join(imagesFolder,"aachen_000000_000019_leftImg8bit_foggy_beta_0.01.png")) or os.path.isfile( os.path.join(imagesFolder,"frankfurt_000000_000294_leftImg8bit_foggy_beta_0.01.png")):
+       imageSufix = '_leftImg8bit_foggy_beta_0.01.png'
+    elif os.path.isfile( os.path.join(imagesFolder,"aachen_000000_000019_leftImg8bit_foggy_beta_0.005.png")) or os.path.isfile( os.path.join(imagesFolder,"frankfurt_000000_000294_leftImg8bit_foggy_beta_0.005.png")):
+       imageSufix = '_leftImg8bit_foggy_beta_0.005.png'
 
-# Set Labels to Exclude/Ignore
-exclude_labels = ['out_of_roi']
-exclude_labels.append('road')
-exclude_labels.append('sidewalk')
-exclude_labels.append('sky')
-exclude_labels.append('building')
-exclude_labels.append('vegetation')
-exclude_labels.append('pole')
-exclude_labels.append('traffic_sign')
-exclude_labels.append('static')
-exclude_labels.append('license_plate')
-exclude_labels.append('ego_vehicle')
-exclude_labels.append('terrain')
-exclude_labels.append('ground')
-exclude_labels.append('traffic_light')
-exclude_labels.append('dynamic')
-exclude_labels.append('wall')
-exclude_labels.append('cargroup')
-exclude_labels.append('fence')
-exclude_labels.append('bicyclegroup')
-exclude_labels.append('parking')
-exclude_labels.append('persongroup')
-exclude_labels.append('bridge')
-exclude_labels.append('trailer')
-exclude_labels.append('polegroup')
-exclude_labels.append('tunnel')
-exclude_labels.append('caravan')
-exclude_labels.append('guard_rail')
-exclude_labels.append('rectification_border')
-exclude_labels.append('rail_track')
-exclude_labels.append('motorcyclegroup')
-exclude_labels.append('ridergroup')
-exclude_labels.append('truckgroup')
-#exclude_labels.append('')
+    if imageSufix=="":
+        print()
+        print("=== Atention ===")
+        print("Do not exist files in {}, or add new sufixe".format(imagesFolder) )
+        sys.exit()           
 
-#------------------------------------------------------------------------------------------------------------
-categories = []
+    #--------------------------------------------------------------------------
+    # download files from https://www.cityscapes-dataset.com/downloads/
+    # - gtFine_trainvaltest.zip (241MB) [md5]
+    # - leftImg8bit_trainvaltest.zip (11GB) [md5]
+    #--------------------------------------------------------------------------
 
-jsonFiles = glob.glob('{}**/**/*.json'.format(jsonfolder))
+    # Set Labels to Include, if empty then all
+    include_labels = ["car", "bicycle", "person", "rider", "motorcycle", "bus", "truck", "train"]
 
-#------------------------------------------------------------------------------------------------------------
-for fileName in jsonFiles:
+    #------------------------------------------------------------------------------------------------------------
+    categories = []
 
-    fileName = fileName.replace('\\','/')
-    jsonFileName = fileName.split('/')[-1:][0]
-    imageFileName = jsonFileName.replace('_gtFine_polygons.json','_leftImg8bit.png')
-    image_path =  fileName.replace(jsonfolder,imagesfolder).replace(jsonFileName,'')
-    
-    xmlFileName = fileName.replace(jsonfolder,outputBboxfolder).replace(jsonFileName,imageFileName.replace('.png','.xml'))
+    jsonFiles = glob.glob('{}**/**/*.json'.format(extractedFolderAnn))
 
-    with open(fileName,'r') as fp:
-        data = json.load(fp)
+    #------------------------------------------------------------------------------------------------------------
+    for fileName in jsonFiles:
 
-        E = objectify.ElementMaker(annotate=False)
-        annotation = E.annotation(
-            E.folder(image_path),
-            E.filename(imageFileName),
-            E.source(
-                E.database('Cityscape'),
-                E.annotation('Cityscape'),
-                E.image('Cityscape'),
-                ),
-            E.size(
-                E.width(data['imgWidth']),
-                E.height(data['imgHeight']),
-                E.depth('3'),
-                ),
-            )
-        
-        for obj_json in data['objects']:
-            label = obj_json['label'].replace(' ','_')
-            if label in exclude_labels:
-                continue
+        fileName = fileName.replace('\\','/')
+        jsonFileName = fileName.split('/')[-1:][0]
+        imageFileName = jsonFileName.replace('_gtFine_polygons.json',imageSufix)
+        xmlFileName = os.path.join(outputFolderAnn, imageFileName.replace('.png','.xml')) 
 
-            if len(include_labels)>0 and label not in include_labels:
-                continue
+        with open(fileName,'r') as fp:
+            data = json.load(fp)
 
-            if label not in categories:
-                categories.append(label)
-
-            points=obj_json['polygon']
-            Xs = list(np.asarray( obj_json['polygon']).flatten())[::2]  #pega todos os X
-            Ys = list(np.asarray( obj_json['polygon']).flatten())[1::2]  #pega todos os Y
-            
             E = objectify.ElementMaker(annotate=False)
-            annotation.append(E.object(
-                                E.name(label),
-                                E.bndbox(
-                                    E.xmin(np.min(Xs)),
-                                    E.ymin(np.min(Ys)),
-                                    E.xmax(np.max(Xs)),
-                                    E.ymax(np.max(Ys)),
-                                ),
-            ))
+            annotation = E.annotation(
+                E.folder(imagesFolder),
+                E.filename(imageFileName),
+                E.source(
+                    E.database(databaseName),
+                    E.annotation(jsonFileName),
+                    E.image(imageFileName),
+                    ),
+                E.size(
+                    E.width(data['imgWidth']),
+                    E.height(data['imgHeight']),
+                    E.depth('3'),
+                    ),
+                )
+            
+            for obj_json in data['objects']:
+                label = obj_json['label'].replace(' ','_')
 
+                if len(include_labels)>0 and label not in include_labels:
+                    continue
+
+                if label not in categories:
+                    categories.append(label)
+
+                points=obj_json['polygon']
+                Xs = list(np.asarray( obj_json['polygon']).flatten())[::2]  #pega todos os X
+                Ys = list(np.asarray( obj_json['polygon']).flatten())[1::2]  #pega todos os Y
+                
+                E = objectify.ElementMaker(annotate=False)
+                annotation.append(E.object(
+                                    E.name(label),
+                                    E.bndbox(
+                                        E.xmin(np.min(Xs)),
+                                        E.ymin(np.min(Ys)),
+                                        E.xmax(np.max(Xs)),
+                                        E.ymax(np.max(Ys)),
+                                    ),
+                ))
+
+            
+            if not os.path.exists(os.path.dirname(xmlFileName)):
+                os.makedirs(os.path.dirname(xmlFileName))
+            
+            etree.ElementTree(annotation).write(xmlFileName)
         
-        if not os.path.exists(os.path.dirname(xmlFileName)):
-            os.makedirs(os.path.dirname(xmlFileName))
-        etree.ElementTree(annotation).write(xmlFileName)
-    
+
+    print('=========== Categorias ===============')
+    print(set(categories))
 
 
-
-print('=========== Categorias ===============')
-for lbl in categories:
-    print(lbl)
-
-
-
-
-#------------------------------------------------------------------
-def root(folder, filename, width, height):
-    E = objectify.ElementMaker(annotate=False)
-    return E.annotation(
-            E.folder(folder),
-            E.filename(filename),
-            E.source(
-                E.database('Cityscape'),
-                E.annotation('Cityscape'),
-                E.image('Cityscape'),
-                ),
-            E.size(
-                E.width(width),
-                E.height(height),
-                E.depth('3'),
-                ),
-            )
