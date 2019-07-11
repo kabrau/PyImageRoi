@@ -4,6 +4,14 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 import argparse
 
+def toInt(value):
+    rs = 0
+    try:
+        rs = int(value)
+    except:
+        rs = int(float(value))
+
+
 def xml_to_csv(path, addPathCol):
     xml_list = []
     for xml_file in glob.glob(path + '/*.xml'):
@@ -16,20 +24,20 @@ def xml_to_csv(path, addPathCol):
                         int(root.find('size')[0].text),
                         int(root.find('size')[1].text),
                         member[0].text,
-                        int(member.find('bndbox').find('xmin').text),
-                        int(member.find('bndbox').find('ymin').text),
-                        int(member.find('bndbox').find('xmax').text),
-                        int(member.find('bndbox').find('ymax').text)
+                        toInt(member.find('bndbox').find('xmin').text),
+                        toInt(member.find('bndbox').find('ymin').text),
+                        toInt(member.find('bndbox').find('xmax').text),
+                        toInt(member.find('bndbox').find('ymax').text)
                         )
             else:
                 value = (root.find('filename').text,
                         int(root.find('size')[0].text),
                         int(root.find('size')[1].text),
                         member[0].text,
-                        int(member.find('bndbox').find('xmin').text),
-                        int(member.find('bndbox').find('ymin').text),
-                        int(member.find('bndbox').find('xmax').text),
-                        int(member.find('bndbox').find('ymax').text)
+                        toInt(member.find('bndbox').find('xmin').text),
+                        toInt(member.find('bndbox').find('ymin').text),
+                        toInt(member.find('bndbox').find('xmax').text),
+                        toInt(member.find('bndbox').find('ymax').text)
                         )
             xml_list.append(value)
     if addPathCol:
