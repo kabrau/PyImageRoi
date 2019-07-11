@@ -104,6 +104,8 @@ def box_union(a, b):
     return u
 
 def box_iou(a, b):
+    #print("a=>", a.x, a.y, a.w, a.h)
+    #print("b=>", b.x, b.y, b.w, b.h)
     if box_union(a, b) == 0:
         return 0.0
     return box_intersection(a, b) / box_union(a, b)
@@ -215,6 +217,7 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
             for line in predictions_lines:
                 b = Box()
                 b.load_from_line(line, CLASS)
+                #print(b)
 
                 #macgyver for file name with spaces
                 spaceCount = line.count(' ')
@@ -228,7 +231,8 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                 predictions_dict[img_name] += [b]
 
                 if img_name not in truth_dict:
-                    label_file_name = img_name
+                    #label_file_name = img_name
+                    label_file_name, extension = os.path.splitext(img_name)
                     # if "tumblr" in img_name:
                     #     label_file_name += ".gif"
                     truth_dict[img_name] += get_truth_boxes(os.path.join(LABELS_PATH, label_file_name + ".xml"), CLASS)
@@ -252,6 +256,12 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                     #========== SIMPLE
                     simple_predicted_boxes = [b for b in predicted_boxes if b.score >= SCORE_THRESH]
 
+                    #for b in predicted_boxes:
+                    #    print(b.score)
+
+                    #print(len(truth_boxes), len(simple_predicted_boxes), SCORE_THRESH)
+                    
+
                     if (len(truth_boxes) == len(simple_predicted_boxes)):
                         tp_total = tp_total + len(truth_boxes)
                         
@@ -263,11 +273,14 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                         tp_total = tp_total + len(simple_predicted_boxes)
                         fn_total = fn_total + len(truth_boxes) - len(simple_predicted_boxes) 
                     #================
+                    #print(tp_total)
+                    #print(fp_total)
 
                     truth_detected = []
                     pred_detected = []
                     for truth_box in truth_boxes:
-                        if truth_box in truth_detected: continue
+                        if truth_box in truth_detected: 
+                            continue
                         max_iou = -1.0
                         detected_truth_box = None
                         detected_pred_box = None
@@ -276,6 +289,7 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
                             if pred_box.score < SCORE_THRESH:
                                 continue
 
+                            #print(box_iou(pred_box, truth_box))
                             if box_iou(pred_box, truth_box) > max_iou:
                                 max_iou = box_iou(pred_box, truth_box)
                                 detected_truth_box = truth_box
