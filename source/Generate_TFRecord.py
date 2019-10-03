@@ -21,12 +21,12 @@ from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-
 #----------------------------------------------------------------------------------------
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--csv_input", required=True, help="Path to the CSV input")
 ap.add_argument("-o", "--output_path", required=True, help="Path to output TFRecord")
 ap.add_argument("-i", "--images_path", required=False, help="Path for Images, If dont have into CSV")
+ap.add_argument("-a", "--add_csv_input", required=False, help="Path for add image from another csv")
 
 args = vars(ap.parse_args())
 
@@ -34,22 +34,47 @@ args = vars(ap.parse_args())
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'car':
+    if row_label == 'opened_door':
         return 1
-    elif row_label == 'train':
+    elif row_label == 'closed_door':
         return 2
-    elif row_label == 'bicycle':
+    elif row_label == 'elevator_door':
         return 3
-    elif row_label == 'person':
+    elif row_label == 'ascending_stair':
         return 4
-    elif row_label == 'truck':
+    elif row_label == 'descending_stair':
         return 5
-    elif row_label == 'motorcycle':
-        return 6
-    elif row_label == 'bus':
-        return 7
-    elif row_label == 'rider':
-        return 8
+    # if row_label == 'car':
+    #     return 1
+    # elif row_label == 'person':
+    #     return 2
+    # elif row_label == 'Cyclist':
+    #     return 3
+    # elif row_label == 'Misc':
+    #     return 4
+    # elif row_label == 'Person_sitting':
+    #     return 5
+    # elif row_label == 'Tram':
+    #     return 6
+    # elif row_label == 'Truck':
+    #     return 7
+    # elif row_label == 'Van':
+    #     return 8
+
+    # elif row_label == 'train':
+    #     return 2
+    # elif row_label == 'bicycle':
+    #     return 3
+    # elif row_label == 'person':
+    #     return 4
+    # elif row_label == 'truck':
+    #     return 5
+    # elif row_label == 'motorcycle':
+    #     return 6
+    # elif row_label == 'bus':
+    #     return 7
+    # elif row_label == 'rider':
+    #     return 8
     else:
         None
 
@@ -66,6 +91,7 @@ def create_tf_example(group, path):
         filename = group.filename[0]
     else:
         filename = group.filename
+    print("filename={}".format(filename))
 
     imageFile = os.path.join(path, '{}'.format(filename))
     if not os.path.isfile(imageFile):
@@ -121,9 +147,28 @@ def main(_):
     else:
         grouped = split(examples, ['filename'])
 
-    for group in grouped:
-        tf_example = create_tf_example(group, path)
-        writer.write(tf_example.SerializeToString())
+    if args["add_csv_input"]:
+        examples2 = pd.read_csv(args["add_csv_input"])
+        if path==None:
+            grouped2 = split(examples2, ['filename','path'])
+        else:
+            grouped2 = split(examples2, ['filename'])
+
+        for group1, group2 in zip(grouped, grouped2):
+
+            #print(group1.filename[0])
+            tf_example = create_tf_example(group1, path)
+            writer.write(tf_example.SerializeToString())
+
+            #print(group2.filename[0])
+            tf_example = create_tf_example(group2, path)
+            writer.write(tf_example.SerializeToString())
+    else:
+        for group in grouped:
+
+            #print(group.filename)
+            tf_example = create_tf_example(group, path)
+            writer.write(tf_example.SerializeToString())
 
     writer.close()
     output_path = os.path.join(os.getcwd(), args["output_path"])
