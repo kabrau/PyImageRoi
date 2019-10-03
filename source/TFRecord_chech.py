@@ -29,7 +29,7 @@ def load_tfrecord(file_name):
     for s_example in tf.python_io.tf_record_iterator(file_name):
         example = tf.parse_single_example(s_example, features=features)
         result = tf.train.Example.FromString(s_example)
-        print(result.features.feature['image/filename'].bytes_list.value)
+        print("filename={}".format(result.features.feature['image/filename'].bytes_list.value))
         print(result.features.feature['image/format'].bytes_list.value)
         print(len(result.features.feature['image/encoded'].bytes_list.value[0]))
         
@@ -37,7 +37,7 @@ def load_tfrecord(file_name):
         data.append(tf.expand_dims(example['x'], 0))
         tot += 1
         #break
-    print(tot)
+    print("Total={}".format(tot))
     #return tf.concat(0, data)
 
 data = load_tfrecord(args["TFfile"])
