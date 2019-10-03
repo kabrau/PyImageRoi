@@ -10,6 +10,7 @@ def toInt(value):
         rs = int(value)
     except:
         rs = int(float(value))
+    return rs
 
 
 def xml_to_csv(path, addPathCol):
@@ -39,7 +40,9 @@ def xml_to_csv(path, addPathCol):
                         toInt(member.find('bndbox').find('xmax').text),
                         toInt(member.find('bndbox').find('ymax').text)
                         )
-            xml_list.append(value)
+            if (not member[0].text=="DontCare"):
+                xml_list.append(value)
+
     if addPathCol:
         column_name = ['path','filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
     else:
