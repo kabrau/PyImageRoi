@@ -251,18 +251,20 @@ def Sim10KDataset(datasetFolder, zipFolder, tmpFolder):
         print("Adjust filename proper into xml files")
         for xml_file in glob.glob(extractedFolder+'/*.xml'):
             tree = et.parse(xml_file)
-            #print(xml_file, tree.find('.//filename').text)
             tree.find('.//filename').text = os.path.split(xml_file)[1].split(".")[0]+".jpg"
-            #print(xml_file, tree.find('.//filename').text)
             tree.write(xml_file)
 
 
     Sim10kFolder = os.path.join(datasetFolder,"Sim10k")
     createFolder(Sim10kFolder)
 
-    folderType = "train"
-    Sim10kFolderType = os.path.join(Sim10kFolder,folderType)
-    createFolder(Sim10kFolderType)
+    count = 0
+    for folderType in ["train","val"]:
+        Sim10kFolderType = os.path.join(Sim10kFolder,folderType)
+        createFolder(Sim10kFolderType)
+        
+        Sim10kFolderType = Sim10kFolderType + ".ann"
+        createFolder(Sim10kFolderType)
 
     extractedFolder = os.path.join(tmpFolder,"VOC2012","JPEGImages")
     print("Moving file from {} to {}".format(extractedFolder, Sim10kFolderType))
@@ -271,8 +273,6 @@ def Sim10KDataset(datasetFolder, zipFolder, tmpFolder):
         destiny = os.path.join( Sim10kFolderType, os.path.split(fileName)[1])
         os.rename(fileName, destiny)
 
-    Sim10kFolderType = Sim10kFolderType + ".ann"
-    createFolder(Sim10kFolderType)
 
     extractedFolder = os.path.join(tmpFolder,"VOC2012","Annotations")
     print("Moving file from {} to {}".format(extractedFolder, Sim10kFolderType))
