@@ -125,10 +125,10 @@ def get_truth_boxes(path, class_name):
         b = obj.find('bndbox')
         box = Box()
         box.cls = cls
-        box.x = int(b.find('xmin').text)
-        box.y = int(b.find('ymin').text)
-        box.xx = int(b.find('xmax').text)
-        box.yy = int(b.find('ymax').text)
+        box.x = toInt(b.find('xmin').text)
+        box.y = toInt(b.find('ymin').text)
+        box.xx = toInt(b.find('xmax').text)
+        box.yy = toInt(b.find('ymax').text)
         box.set_WH()
         boxes += [box]
 
@@ -167,6 +167,13 @@ def voc_ap(rec, prec):
     ap = np.sum((mrec[i + 1] - mrec[i]) * mpre[i + 1])
     return ap
 
+def toInt(value):
+    rs = 0
+    try:
+        rs = int(value)
+    except:
+        rs = int(float(value))
+    return rs
 
 def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
 
@@ -175,13 +182,16 @@ def run(LABELS_PATH, results_path, classes, IOU_THRESH, scoreInitial, verbose):
     
     results_list = os.listdir(results_path)
     results_list.sort(key=natural_keys)
+    if len(results_list)>0 and not os.path.isdir(os.path.join(results_path, results_list[0])):
+        results_list = [""]
+    results_list = [""]
 
     for results in results_list:
 
         recall_values = defaultdict(list)
         precision_values = defaultdict(list)
-        print()
-        print('========= ',results,' ===========')
+        print(os.path.join(results_path, results))
+        print('========= ',os.path.join(results_path, results)+" ",' ===========')
         
         results_chart_path = os.path.join(results_path, results,"_chart")
         print( 'Chart path : ', results_chart_path)
