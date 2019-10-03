@@ -24,14 +24,19 @@ def run(path, output):
         l = []
         for member in root.findall('object'):
 
-            if member[0].text == 'ascending_stair':
+            #================ CLASS NAMES =======================
+            if member[0].text == 'opened_door':
                 iclass = 0
-            elif member[0].text == 'descending_stair':
+            elif member[0].text == 'closed_door':
                 iclass = 1
-            elif member[0].text == 'door':
-                iclass = 2
             elif member[0].text == 'elevator_door':
+                iclass = 2
+            elif member[0].text == 'ascending_stair':
                 iclass = 3
+            elif member[0].text == 'descending_stair':
+                iclass = 4
+            elif member[0].text == 'door':
+                iclass = 1
             
             #class_number x1 y1 width height image_width image_height
             l.append([iclass, 
@@ -54,4 +59,22 @@ ap.add_argument("-o", "--output", required=True, help="txt output path")
 
 args = vars(ap.parse_args())
 
+
+print()
+print()
+print()
+print('==========================================================================')
+print('                      ATENTION                                            ')
+print()
+print('                      ATENTION                                            ')
+print()
+print()
+print('Hi body - dont forget update CLASS NAMES')
+print()
+print('==========================================================================')
+print()
+print()
+print()
+
 run(args["path"], args["output"])
+
