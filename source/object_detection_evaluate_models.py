@@ -38,7 +38,7 @@ def load_image_into_numpy_array(image):
 
 
 def run(TEST_PATH, LABEL_MAP, PATH_TO_CKPT, DEST_PATH):
-  print("bbb")
+  
 
 
     #TEST_PATH =  "F:/datasets/Cityscape/val/"
@@ -46,18 +46,18 @@ def run(TEST_PATH, LABEL_MAP, PATH_TO_CKPT, DEST_PATH):
     #PATH_TO_CKPT = "F:/datasets/Cityscape/inference/frozen_inference_graph.pb"
     #DEST_PATH = "F:/datasets/Cityscape/result"
 
-  print("1,1 "+LABEL_MAP)
+  
   label_map = label_map_util.load_labelmap(LABEL_MAP)
-  print("1")
+  
 
   qtd_label = label_map_util.get_max_label_map_index(label_map)
-  print("1")
+  
 
   categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=qtd_label, use_display_name=True)
   category_index = label_map_util.create_category_index(categories)
 
   tf.reset_default_graph()   
-  print("1")
+  
 
   detection_graph = tf.Graph()
   with detection_graph.as_default():
@@ -68,7 +68,7 @@ def run(TEST_PATH, LABEL_MAP, PATH_TO_CKPT, DEST_PATH):
       tf.import_graph_def(od_graph_def, name='')
 
   dest_path = DEST_PATH
-  print("1")
+  
   if not os.path.exists(dest_path):
       os.makedirs(dest_path)
 
@@ -192,7 +192,7 @@ def run(TEST_PATH, LABEL_MAP, PATH_TO_CKPT, DEST_PATH):
 
 if __name__ == "__main__":
 
-    print("aaa")
+    
 
     #=============================================================================
     # construct the argument parser and parse the arguments
@@ -211,6 +211,6 @@ if __name__ == "__main__":
     #PATH_TO_CKPT = "F:/datasets/Cityscape/inference/frozen_inference_graph.pb"
     #DEST_PATH = "F:/datasets/Cityscape/result"
 
-    print("aaa")
+    
 
     run(args["imagepath"], args["labelpath"], args["frozenfile"], args["output"])
