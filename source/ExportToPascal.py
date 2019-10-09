@@ -8,6 +8,17 @@ from lxml import etree, objectify
 #filename,width,height,class,xmin,ymin,xmax,ymax
 #20170730_132530-(F00000).jpeg,576,1024,sinaleira,221,396,246,437
 
+def createFolder(directory):
+    try:
+        if not os.path.exists(directory):
+            print("Make dir {}".format(directory))
+            os.makedirs(directory)
+    except OSError:
+        print()
+        print("=== Atention ===")
+        print ('Error: Creating directory. ' +  directory)
+        sys.exit()
+
 def root(folder, filename, width, height):
     E = objectify.ElementMaker(annotate=False)
     return E.annotation(
@@ -112,6 +123,7 @@ def searchFolder(image_path, ann_path, classNameList, searchSubdir):
 
         #print(etree.tostring(annotation, pretty_print=True))
         print(xmlFileName)
+        createFolder(os.path.dirname(xmlFileName))
         etree.ElementTree(annotation).write(xmlFileName)
 
 
