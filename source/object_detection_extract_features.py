@@ -79,13 +79,21 @@ def run(TEST_PATH, LABEL_MAP, PATH_TO_CKPT, DEST_PATH):
     f_out.append(open(dest_path +"/"+c['name']+".txt","w"))
 
 
+
   plot_results = False
   show_time = False
+
+  valid_images = [".jpg",".gif",".png",".tga",".jpeg"]
 
   test_files = os.listdir(TEST_PATH) 
   with detection_graph.as_default():
       with tf.Session(graph=detection_graph) as sess:
           for image_path in test_files:
+
+              name, ext = os.path.splitext(image_path)        
+              if ext.lower() not in valid_images:            
+                continue
+
 
               print(image_path)
               
